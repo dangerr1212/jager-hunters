@@ -35,7 +35,7 @@ function App() {
   const isAllCompleted = locations.every(loc => loc.completed);
 
   useEffect(() => {
-    fetch(`/api/user/${telegramId}`)
+    fetch(`https://jager-hunters.onrender.com/api/user/${telegramId}`)
       .then(res => res.json())
       .then(data => {
         if (data.success && data.user) {
@@ -59,7 +59,7 @@ function App() {
 
   const handleSelectCharacter = async (characterName) => {
     try {
-      await fetch('/api/select-character', {
+      await fetch('https://jager-hunters.onrender.com/api/select-character', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -101,7 +101,7 @@ function App() {
             
             const saveProgress = async () => {
               try {
-                await fetch('/api/complete-bar', { 
+                await fetch('https://jager-hunters.onrender.com/api/complete-bar', { 
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
@@ -145,7 +145,7 @@ function App() {
   const handleSelectReward = async (rewardType) => {
     if (selectedReward) return;
     try {
-      await fetch('/api/select-reward', {
+      await fetch('https://jager-hunters.onrender.com/api/select-reward', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ telegram_id: telegramId, reward: rewardType }),
@@ -334,7 +334,7 @@ function App() {
           <img src="/logogo.jpg" alt="Logo" className="deer-sprite" style={{ width: '50px' }} />
         </div>
         <div className="deer-container-up" style={{ right: '6%', animationDuration: '25s', animationDelay: '-12s' }}>
-          <img src="/logogo.jpg" alt="Logo" className="deer-sprite" style={{ width: '55px' }} />
+          <img src="/logogo.jpg " alt="Logo" className="deer-sprite" style={{ width: '55px' }} />
         </div>
 
         {locations.map((loc, index) => {
