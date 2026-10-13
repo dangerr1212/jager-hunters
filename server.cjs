@@ -117,10 +117,11 @@ app.post('/api/select-reward', (req, res) => {
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Все остальные запросы перенаправляем на index.html, чтобы работал роутинг React
-app.get('*', (req, res) => {
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get(/(.*)/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
-
 // Запуск сервера
 app.listen(PORT, () => {
   console.log(`Сервер успешно запущен на порту ${PORT}`);
