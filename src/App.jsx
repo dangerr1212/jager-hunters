@@ -21,7 +21,6 @@ function App() {
   const [gameFinished, setGameFinished] = useState(false);
   const [selectedReward, setSelectedReward] = useState(null);
 
-  // Рефы для изображений персонажей на этапе выбора для применения canvas-пикселизации
   const hunterImgRef = useRef(null);
   const huntiImgRef = useRef(null);
 
@@ -38,17 +37,15 @@ function App() {
 
   const isAllCompleted = locations.every(loc => loc.completed);
 
-  // Функция canvas-пикселизации изображения
   const pixelateImage = (imgElement) => {
     if (!imgElement) return;
     const canvas = document.createElement('canvas');
-    const size = 32; // чем меньше — тем грубее пиксели
+    const size = 32;
     canvas.width = size;
     canvas.height = size;
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
     
-    // Рисуем картинку после её загрузки
     if (imgElement.complete) {
       ctx.drawImage(imgElement, 0, 0, size, size);
       imgElement.src = canvas.toDataURL();
@@ -129,7 +126,6 @@ function App() {
 
           if (scannedText.includes(expectedKey)) {
             twa.closeScanQrPopup();
-            
             localStorage.setItem('lastScanTime', Date.now().toString());
             
             const saveProgress = async () => {
@@ -137,10 +133,7 @@ function App() {
                 await fetch('https://jager-hunters.onrender.com/api/complete-bar', { 
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    telegram_id: telegramId,
-                    bar_id: barId
-                  }),
+                  body: JSON.stringify({ telegram_id: telegramId, bar_id: barId }),
                 });
 
                 const updatedLocations = locations.map(loc => 
@@ -155,7 +148,6 @@ function App() {
                 } else {
                   alert('LEVEL UP! Локация захвачена. Ты получил новый артефакт. Двигай к следующей цели!');
                 }
-                
               } catch (error) {
                 console.error('Ошибка сохранения прогресса бара:', error);
               }
@@ -192,8 +184,8 @@ function App() {
 
   if (!selectedCharacter) {
     return (
-      <div className="start-screen-container">
-        {/* Логотип увеличен до 220px */}
+      <div className="app">
+        {/* 1. ЛОГОТИП */}
         <div className="logo-container">
           <img 
             src="/assets/logo-gold.png" 
@@ -203,16 +195,18 @@ function App() {
           />
         </div>
 
+        {/* 2. ТЕКСТЫ */}
         <h1 className="main-title">JAGER HUNTERS</h1>
-
         <p className="sub-title">
           <span className="blink-arrow">▶</span> Охота началась. Найди все точки.
         </p>
 
+        {/* 3. ВЫБОР ГЕРОЯ */}
         <h2 className="section-title">▼ ВЫБЕРИ ГЕРОЯ:</h2>
 
+        {/* 4. ПЕРСОНАЖИ */}
         <div className="characters-grid">
-          {/* Карточка Хантера */}
+          {/* Хантер */}
           <div className="character-card" onClick={() => handleSelectCharacter('Хантер')}>
             <div className="avatar-wrapper">
               <img 
@@ -227,7 +221,7 @@ function App() {
             </div>
           </div>
 
-          {/* Карточка Ханти */}
+          {/* Ханти */}
           <div className="character-card" onClick={() => handleSelectCharacter('Ханти')}>
             <div className="avatar-wrapper">
               <img 
@@ -248,14 +242,13 @@ function App() {
 
   if (showStory) {
     return (
-      <div style={{ padding: '25px', textAlign: 'center', backgroundColor: '#0D2018', color: '#fff', minHeight: '100vh', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <style>{`@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); .pixel-font { font-family: 'Press Start 2P', monospace; }`}</style>
-        <div style={{ backgroundColor: '#143326', border: '3px solid #D4530A', borderRadius: '0px', padding: '25px', maxWidth: '380px', boxShadow: '4px 4px 0px #8B2500' }}>
-          <h2 className="pixel-font" style={{ fontSize: '14px', color: '#D4530A', marginBottom: '20px', lineHeight: '1.5' }}>НАЧАЛО ОХОТЫ</h2>
-          <p className="pixel-font" style={{ fontSize: '9px', color: '#ddd', lineHeight: '1.8', textAlign: 'left', marginBottom: '30px' }}>
+      <div className="app" style={{ justifyContent: 'center' }}>
+        <div style={{ backgroundColor: '#143326', border: '3px solid #D4530A', borderRadius: '0px', padding: '20px', maxWidth: '340px', boxShadow: '4px 4px 0px #8B2500', textAlign: 'center' }}>
+          <h2 className="pixel-font" style={{ fontSize: '12px', color: '#D4530A', marginBottom: '15px', lineHeight: '1.5' }}>НАЧАЛО ОХОТЫ</h2>
+          <p className="pixel-font" style={{ fontSize: '8px', color: '#ddd', lineHeight: '1.8', textAlign: 'left', marginBottom: '20px' }}>
             «Город погрузился в пиксельную ночь. Легендарный рецепт из 56 трав утерян, а его части спрятаны в лучших барах. Твоя миссия — зачистить 8 локаций, отсканировать секретные коды и восстановить рецепт. Охота началась!»
           </p>
-          <button onClick={() => setShowStory(false)} style={{ padding: '14px 20px', fontSize: '10px', backgroundColor: '#D4530A', color: '#fff', border: 'none', borderRadius: '0px', cursor: 'pointer', fontWeight: 'bold', width: '100%', boxShadow: '3px 3px 0px #8B2500' }} className="pixel-font">
+          <button onClick={() => setShowStory(false)} style={{ padding: '12px 20px', fontSize: '9px', backgroundColor: '#D4530A', color: '#fff', border: 'none', borderRadius: '0px', cursor: 'pointer', fontWeight: 'bold', width: '100%', boxShadow: '3px 3px 0px #8B2500' }} className="pixel-font">
             В БОЙ!
           </button>
         </div>
@@ -265,33 +258,32 @@ function App() {
 
   if (gameFinished) {
     return (
-      <div style={{ padding: '20px', textAlign: 'center', backgroundColor: '#0D2018', color: '#fff', minHeight: '100vh', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <style>{`@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); .pixel-font { font-family: 'Press Start 2P', monospace; }`}</style>
-        <h2 className="pixel-font" style={{ fontSize: '14px', color: '#D4530A', marginBottom: '20px' }}>ЭПИЧЕСКАЯ ПОБЕДА!</h2>
-        <p style={{ fontSize: '10px', marginBottom: '30px', lineHeight: '1.6', maxWidth: '350px' }} className="pixel-font">
+      <div className="app" style={{ justifyContent: 'center' }}>
+        <h2 className="pixel-font" style={{ fontSize: '12px', color: '#D4530A', marginBottom: '15px', textAlign: 'center' }}>ЭПИЧЕСКАЯ ПОБЕДА!</h2>
+        <p style={{ fontSize: '9px', marginBottom: '20px', lineHeight: '1.6', maxWidth: '340px', textAlign: 'center' }} className="pixel-font">
           Рецепт из 56 трав восстановлен! Выбери свой сундук с наградой:
         </p>
         {!selectedReward ? (
-          <div style={{ display: 'flex', gap: '20px', marginBottom: '30px' }}>
-            <div onClick={() => handleSelectReward('merch')} style={{ backgroundColor: '#143326', border: '3px solid #D4530A', borderRadius: '0px', padding: '20px', width: '140px', cursor: 'pointer', boxShadow: '4px 4px 0px #8B2500', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ fontSize: '40px', marginBottom: '10px' }}>🎁</div>
-              <span className="pixel-font" style={{ fontSize: '8px', color: '#fff', lineHeight: '1.4' }}>ЭПИЧЕСКАЯ ЭКИПИРОВКА<br/>(Мерч)</span>
+          <div style={{ display: 'flex', gap: '15px', marginBottom: '20px' }}>
+            <div onClick={() => handleSelectReward('merch')} style={{ backgroundColor: '#143326', border: '3px solid #D4530A', borderRadius: '0px', padding: '15px', width: '140px', cursor: 'pointer', boxShadow: '4px 4px 0px #8B2500', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+              <div style={{ fontSize: '32px', marginBottom: '8px' }}>🎁</div>
+              <span className="pixel-font" style={{ fontSize: '7px', color: '#fff', lineHeight: '1.4' }}>ЭПИЧЕСКАЯ ЭКИПИРОВКА<br/>(Мерч)</span>
             </div>
-            <div onClick={() => handleSelectReward('bottle')} style={{ backgroundColor: '#143326', border: '3px solid #D4530A', borderRadius: '0px', padding: '15px', width: '140px', cursor: 'pointer', boxShadow: '4px 4px 0px #8B2500', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-              <img src="/jager-logo.png" alt="Бутылка Jägermeister" style={{ width: '50px', height: '80px', objectFit: 'contain', marginBottom: '8px' }} />
-              <span className="pixel-font" style={{ fontSize: '8px', color: '#fff', lineHeight: '1.4' }}>ЛЕГЕНДАРНЫЙ ЭЛИКСИР</span>
+            <div onClick={() => handleSelectReward('bottle')} style={{ backgroundColor: '#143326', border: '3px solid #D4530A', borderRadius: '0px', padding: '12px', width: '140px', cursor: 'pointer', boxShadow: '4px 4px 0px #8B2500', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+              <img src="/jager-logo.png" alt="Бутылка Jägermeister" style={{ width: '40px', height: '60px', objectFit: 'contain', marginBottom: '6px' }} />
+              <span className="pixel-font" style={{ fontSize: '7px', color: '#fff', lineHeight: '1.4' }}>ЛЕГЕНДАРНЫЙ ЭЛИКСИР</span>
             </div>
           </div>
         ) : (
-          <div style={{ backgroundColor: '#143326', border: '3px solid #4ade80', borderRadius: '0px', padding: '20px', maxWidth: '350px', marginBottom: '20px', boxShadow: '4px 4px 0px #1e5c32' }}>
-            <h3 className="pixel-font" style={{ fontSize: '11px', color: '#4ade80', marginBottom: '15px' }}>НАГРАДА ВЫБРАНА!</h3>
-            <p style={{ fontSize: '9px', lineHeight: '1.6', marginBottom: '15px', color: '#ddd' }} className="pixel-font">
+          <div style={{ backgroundColor: '#143326', border: '3px solid #4ade80', borderRadius: '0px', padding: '15px', maxWidth: '340px', textAlign: 'center', boxShadow: '4px 4px 0px #1e5c32' }}>
+            <h3 className="pixel-font" style={{ fontSize: '10px', color: '#4ade80', marginBottom: '12px' }}>НАГРАДА ВЫБРАНА!</h3>
+            <p style={{ fontSize: '8px', lineHeight: '1.6', marginBottom: '12px', color: '#ddd' }} className="pixel-font">
               {selectedReward === 'merch' ? '🎁 Вы выбрали: Лимитированный мерч Jägermeister.' : '🍾 Вы выбрали: Фирменную бутылку Jägermeister.'}
             </p>
-            <p style={{ fontSize: '9px', color: '#D4530A', lineHeight: '1.6', marginBottom: '10px' }} className="pixel-font">
+            <p style={{ fontSize: '8px', color: '#D4530A', lineHeight: '1.6', marginBottom: '8px' }} className="pixel-font">
               📍 Где забрать приз:<br/><b>Бар «Флагманский Jager Haus» (ул. Барная, 56)</b>
             </p>
-            <p style={{ fontSize: '8px', color: '#888', lineHeight: '1.5' }} className="pixel-font">Покажи этот экран Хранителю (бармену) в призовом баре. Внимание: кнопку «Выдать приз» нажимает только персонал!</p>
+            <p style={{ fontSize: '7px', color: '#888', lineHeight: '1.5' }} className="pixel-font">Покажи этот экран Хранителю (бармену) в призовом баре.</p>
           </div>
         )}
       </div>
@@ -299,11 +291,8 @@ function App() {
   }
 
   return (
-    <div style={{ padding: '20px', textAlign: 'center', backgroundColor: '#0D2018', color: '#fff', minHeight: '100vh', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className="app" style={{ justifyContent: 'flex-start', overflowY: 'auto' }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        .pixel-font { font-family: 'Press Start 2P', monospace; }
-        
         @keyframes patrol-down { 0% { top: -15%; } 100% { top: 115%; } }
         @keyframes patrol-up { 0% { top: 115%; } 100% { top: -15%; } }
         @keyframes step-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
@@ -317,19 +306,19 @@ function App() {
         .deer-sprite { display: inline-block; animation: step-bounce 0.6s steps(2) infinite; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.4)); image-rendering: pixelated; }
       `}</style>
       
-      <h1 className="pixel-font" style={{ fontSize: '14px', color: '#D4530A', textShadow: '2px 2px 0px #000', marginTop: '10px' }}>КАРТА ОХОТЫ</h1>
-      <p style={{ fontSize: '10px', marginTop: '10px', color: '#4ade80' }} className="pixel-font">Охотник: <span style={{color: '#fff'}}>{selectedCharacter}</span></p>
+      <h1 className="pixel-font" style={{ fontSize: '12px', color: '#D4530A', textShadow: '2px 2px 0px #000', marginTop: '5px' }}>КАРТА ОХОТЫ</h1>
+      <p style={{ fontSize: '9px', marginTop: '6px', color: '#4ade80' }} className="pixel-font">Охотник: <span style={{color: '#fff'}}>{selectedCharacter}</span></p>
 
       {isAllCompleted && (
-        <button onClick={() => setGameFinished(true)} style={{ marginTop: '15px', padding: '12px 20px', backgroundColor: '#D4530A', color: '#fff', border: 'none', borderRadius: '0px', cursor: 'pointer', fontWeight: 'bold', width: '100%', maxWidth: '400px', boxShadow: '4px 4px 0px #8B2500', zIndex: 10 }} className="pixel-font">
+        <button onClick={() => setGameFinished(true)} style={{ marginTop: '10px', padding: '10px 15px', backgroundColor: '#D4530A', color: '#fff', border: 'none', borderRadius: '0px', cursor: 'pointer', fontWeight: 'bold', width: '100%', maxWidth: '360px', boxShadow: '4px 4px 0px #8B2500', zIndex: 10 }} className="pixel-font">
           ✨ СОБРАТЬ ЭЛИКСИР ✨
         </button>
       )}
 
       {/* Окно уровня */}
       <div style={{ 
-        position: 'relative', marginTop: '30px', width: '100%', maxWidth: '380px', display: 'flex', flexDirection: 'column',
-        backgroundColor: '#143326', padding: '20px 0', borderRadius: '0px', border: '3px solid #1B4332', overflow: 'hidden',
+        position: 'relative', marginTop: '15px', width: '100%', maxWidth: '360px', display: 'flex', flexDirection: 'column',
+        backgroundColor: '#143326', padding: '15px 0', borderRadius: '0px', border: '3px solid #1B4332', overflow: 'hidden',
         boxShadow: 'inset 0 0 20px rgba(0,0,0,0.8)'
       }}>
         
@@ -343,66 +332,19 @@ function App() {
           <div style={{ position: 'absolute', top: 0, bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '4px', borderLeft: '4px dashed #1B4332' }}></div>
         </div>
 
-        {/* Травка */}
-        <div style={{ position: 'absolute', top: '10%', left: 'calc(50% - 40px)', fontSize: '12px', zIndex: 0 }}>🌿</div>
-        <div style={{ position: 'absolute', top: '30%', left: 'calc(50% + 25px)', fontSize: '14px', zIndex: 0 }}>🌱</div>
-        <div style={{ position: 'absolute', top: '50%', left: 'calc(50% - 35px)', fontSize: '12px', zIndex: 0 }}>🌿</div>
-        <div style={{ position: 'absolute', top: '75%', left: 'calc(50% + 30px)', fontSize: '14px', zIndex: 0 }}>🌱</div>
-        <div style={{ position: 'absolute', top: '90%', left: 'calc(50% - 42px)', fontSize: '10px', zIndex: 0 }}>🌿</div>
-
-        {/* --- ГУСТОЙ ЛЕС (МНОГОСЛОЙНОСТЬ) --- */}
-        <div className="tree-sway" style={{ position: 'absolute', top: '3%', left: '2%', fontSize: '16px', opacity: 0.4, zIndex: 0 }}>🌲</div>
-        <div className="tree-sway-alt" style={{ position: 'absolute', top: '12%', right: '3%', fontSize: '18px', opacity: 0.5, zIndex: 0 }}>🌲</div>
-        <div className="tree-sway" style={{ position: 'absolute', top: '22%', left: '8%', fontSize: '14px', opacity: 0.3, zIndex: 0 }}>🌲</div>
-        <div className="tree-sway-alt" style={{ position: 'absolute', top: '35%', right: '1%', fontSize: '16px', opacity: 0.4, zIndex: 0 }}>🌲</div>
-        <div className="tree-sway" style={{ position: 'absolute', top: '48%', left: '3%', fontSize: '18px', opacity: 0.5, zIndex: 0 }}>🌲</div>
-        <div className="tree-sway-alt" style={{ position: 'absolute', top: '60%', right: '7%', fontSize: '14px', opacity: 0.3, zIndex: 0 }}>🌲</div>
-        <div className="tree-sway" style={{ position: 'absolute', top: '78%', left: '2%', fontSize: '16px', opacity: 0.4, zIndex: 0 }}>🌲</div>
-        <div className="tree-sway-alt" style={{ position: 'absolute', top: '88%', right: '2%', fontSize: '18px', opacity: 0.5, zIndex: 0 }}>🌲</div>
-
-        <div className="tree-sway" style={{ position: 'absolute', top: '8%', left: '12%', fontSize: '24px', opacity: 0.7, zIndex: 2 }}>🌲</div>
-        <div className="tree-sway-alt" style={{ position: 'absolute', top: '18%', right: '14%', fontSize: '22px', opacity: 0.6, zIndex: 2 }}>🌲</div>
-        <div className="tree-sway" style={{ position: 'absolute', top: '28%', left: '4%', fontSize: '28px', opacity: 0.8, zIndex: 2 }}>🌲</div>
-        <div className="tree-sway-alt" style={{ position: 'absolute', top: '42%', right: '10%', fontSize: '26px', opacity: 0.7, zIndex: 2 }}>🌲</div>
-        <div className="tree-sway" style={{ position: 'absolute', top: '55%', left: '11%', fontSize: '24px', opacity: 0.6, zIndex: 2 }}>🌲</div>
-        <div className="tree-sway-alt" style={{ position: 'absolute', top: '68%', right: '5%', fontSize: '28px', opacity: 0.8, zIndex: 2 }}>🌲</div>
-        <div className="tree-sway" style={{ position: 'absolute', top: '82%', left: '13%', fontSize: '22px', opacity: 0.7, zIndex: 2 }}>🌲</div>
-        <div className="tree-sway-alt" style={{ position: 'absolute', top: '92%', right: '12%', fontSize: '26px', opacity: 0.8, zIndex: 2 }}>🌲</div>
-
-        <div className="tree-sway" style={{ position: 'absolute', top: '15%', left: '-2%', fontSize: '36px', opacity: 0.9, zIndex: 5 }}>🌲</div>
-        <div className="tree-sway-alt" style={{ position: 'absolute', top: '32%', right: '-4%', fontSize: '40px', opacity: 0.9, zIndex: 5 }}>🌲</div>
-        <div className="tree-sway" style={{ position: 'absolute', top: '52%', left: '-5%', fontSize: '38px', opacity: 1, zIndex: 5 }}>🌲</div>
-        <div className="tree-sway-alt" style={{ position: 'absolute', top: '75%', right: '-3%', fontSize: '36px', opacity: 0.9, zIndex: 5 }}>🌲</div>
-        <div className="tree-sway" style={{ position: 'absolute', top: '95%', left: '-1%', fontSize: '42px', opacity: 1, zIndex: 5 }}>🌲</div>
-
-        {/* Логотипы-патрульные */}
-        <div className="deer-container-down" style={{ left: '12%', animationDuration: '18s', animationDelay: '0s' }}>
-          <img src="/logogo.jpg" alt="Logo" className="deer-sprite" style={{ width: '45px' }} />
-        </div>
-        <div className="deer-container-up" style={{ right: '12%', animationDuration: '22s', animationDelay: '-5s' }}>
-          <img src="/logogo.jpg" alt="Logo" className="deer-sprite" style={{ width: '45px' }} />
-        </div>
-        <div className="deer-container-down" style={{ left: '6%', animationDuration: '15s', animationDelay: '-8s' }}>
-          <img src="/logogo.jpg" alt="Logo" className="deer-sprite" style={{ width: '50px' }} />
-        </div>
-        <div className="deer-container-up" style={{ right: '6%', animationDuration: '25s', animationDelay: '-12s' }}>
-          <img src="/logogo.jpg" alt="Logo" className="deer-sprite" style={{ width: '55px' }} />
-        </div>
-
         {locations.map((loc, index) => {
           const isLeft = index % 2 === 0;
           return (
-            <div key={loc.id} style={{ display: 'flex', justifyContent: isLeft ? 'flex-start' : 'flex-end', alignItems: 'center', width: '100%', marginBottom: '25px', position: 'relative', zIndex: 3, padding: '0 15px', boxSizing: 'border-box' }}>
+            <div key={loc.id} style={{ display: 'flex', justifyContent: isLeft ? 'flex-start' : 'flex-end', alignItems: 'center', width: '100%', marginBottom: '20px', position: 'relative', zIndex: 3, padding: '0 12px', boxSizing: 'border-box' }}>
+              <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', width: '16px', height: '16px', backgroundColor: loc.completed ? '#FFD700' : '#8B4513', border: `3px solid ${loc.completed ? '#CC5500' : '#5C2E0B'}`, borderRadius: '50%', zIndex: 4, boxShadow: '0 0 8px rgba(0,0,0,0.8)' }}></div>
               
-              <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', width: '20px', height: '20px', backgroundColor: loc.completed ? '#FFD700' : '#8B4513', border: `4px solid ${loc.completed ? '#CC5500' : '#5C2E0B'}`, borderRadius: '50%', zIndex: 4, boxShadow: '0 0 10px rgba(0,0,0,0.8)' }}></div>
-              
-              <div onClick={() => !loc.completed && setActiveBar(loc)} style={{ backgroundColor: loc.completed ? '#2d1b0d' : '#4a2f1d', border: `3px solid ${loc.completed ? '#FFD700' : '#D4530A'}`, borderRadius: '0px', padding: '12px 8px', width: '40%', cursor: loc.completed ? 'default' : 'pointer', boxShadow: loc.completed ? '3px 3px 0px #1a0f07' : '3px 3px 0px #2b1a0f', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative' }}>
-                <div style={{ fontSize: '24px', marginBottom: '8px', filter: loc.completed ? 'drop-shadow(0 0 5px #FFD700)' : 'none' }}>
-                  {loc.completed ? <img src="/jager-logo.png" alt="Jager" style={{ width: '32px', height: '32px', objectFit: 'contain', backgroundColor: '#fff', borderRadius: '0px', padding: '2px' }} /> : loc.emoji}
+              <div onClick={() => !loc.completed && setActiveBar(loc)} style={{ backgroundColor: loc.completed ? '#2d1b0d' : '#4a2f1d', border: `3px solid ${loc.completed ? '#FFD700' : '#D4530A'}`, borderRadius: '0px', padding: '10px 6px', width: '42%', cursor: loc.completed ? 'default' : 'pointer', boxShadow: loc.completed ? '3px 3px 0px #1a0f07' : '3px 3px 0px #2b1a0f', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative' }}>
+                <div style={{ fontSize: '20px', marginBottom: '6px', filter: loc.completed ? 'drop-shadow(0 0 5px #FFD700)' : 'none' }}>
+                  {loc.completed ? <img src="/jager-logo.png" alt="Jager" style={{ width: '28px', height: '28px', objectFit: 'contain', backgroundColor: '#fff', borderRadius: '0px', padding: '2px' }} /> : loc.emoji}
                 </div>
-                <span className="pixel-font" style={{ fontSize: '8px', color: loc.completed ? '#FFD700' : '#fff', marginBottom: '6px', lineHeight: '1.4' }}>{loc.name}</span>
-                <span className="pixel-font" style={{ fontSize: '7px', color: loc.completed ? '#ccc' : '#e0c097', marginBottom: '10px', lineHeight: '1.3' }}>{loc.ingredient}</span>
-                <button className="pixel-font" style={{ fontSize: '8px', padding: '8px', backgroundColor: loc.completed ? 'transparent' : '#D4530A', color: loc.completed ? '#FFD700' : '#fff', border: loc.completed ? 'none' : '2px solid #8B2500', borderRadius: '0px', fontWeight: 'bold', width: '100%', textShadow: loc.completed ? 'none' : '1px 1px 0 #111' }}>
+                <span className="pixel-font" style={{ fontSize: '7px', color: loc.completed ? '#FFD700' : '#fff', marginBottom: '4px', lineHeight: '1.4' }}>{loc.name}</span>
+                <span className="pixel-font" style={{ fontSize: '6px', color: loc.completed ? '#ccc' : '#e0c097', marginBottom: '8px', lineHeight: '1.3' }}>{loc.ingredient}</span>
+                <button className="pixel-font" style={{ fontSize: '7px', padding: '6px', backgroundColor: loc.completed ? 'transparent' : '#D4530A', color: loc.completed ? '#FFD700' : '#fff', border: loc.completed ? 'none' : '2px solid #8B2500', borderRadius: '0px', fontWeight: 'bold', width: '100%' }}>
                   {loc.completed ? '✅' : 'СКАН'}
                 </button>
               </div>
@@ -414,9 +356,9 @@ function App() {
       {activeBar && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px', zIndex: 100 }}>
           <div style={{ backgroundColor: '#143326', border: '3px solid #D4530A', borderRadius: '0px', padding: '20px', maxWidth: '320px', textAlign: 'center', boxShadow: '4px 4px 0px #8B2500' }}>
-            <h3 className="pixel-font" style={{ fontSize: '11px', color: '#D4530A', marginBottom: '15px' }}>{activeBar.name}</h3>
-            <p className="pixel-font" style={{ fontSize: '10px', marginBottom: '15px' }}>Артефакт: <span style={{ fontSize: '20px', verticalAlign: 'middle' }}>{activeBar.emoji}</span> <b style={{ color: '#C9A84C' }}>{activeBar.ingredient}</b></p>
-            <p className="pixel-font" style={{ fontSize: '8px', color: '#aaa', marginBottom: '20px', lineHeight: '1.6' }}>Наведите камеру на тейбл-тент в баре для сбора ингредиента.</p>
+            <h3 className="pixel-font" style={{ fontSize: '10px', color: '#D4530A', marginBottom: '12px' }}>{activeBar.name}</h3>
+            <p className="pixel-font" style={{ fontSize: '9px', marginBottom: '12px' }}>Артефакт: <span style={{ fontSize: '18px', verticalAlign: 'middle' }}>{activeBar.emoji}</span> <b style={{ color: '#C9A84C' }}>{activeBar.ingredient}</b></p>
+            <p className="pixel-font" style={{ fontSize: '7px', color: '#aaa', marginBottom: '15px', lineHeight: '1.6' }}>Наведите камеру на тейбл-тент в баре для сбора ингредиента.</p>
             <div style={{ display: 'flex', gap: '10px' }}>
               <button onClick={() => handleScanQRCode(activeBar.id)} style={{ flex: 1, padding: '10px', backgroundColor: '#D4530A', color: '#fff', border: 'none', borderRadius: '0px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '3px 3px 0px #8B2500' }} className="pixel-font">СКАНЕР</button>
               <button onClick={() => setActiveBar(null)} style={{ flex: 1, padding: '10px', backgroundColor: '#1B4332', color: '#fff', border: 'none', borderRadius: '0px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '3px 3px 0px #0D2018' }} className="pixel-font">НАЗАД</button>
