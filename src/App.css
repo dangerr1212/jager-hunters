@@ -1,14 +1,12 @@
-/* --- Глобальные настройки и 8-бит стиль --- */
+/* Подключение шрифтов с Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Oswald:wght@500;700&display=swap');
+
 :root {
-  --bg-color: #0a0a0a;
-  --card-bg: #121212;
-  --jager-green: #00A550;
-  --jager-orange: #FF7518;
-  --text-main: #ffffff;
-  --text-muted: #888888;
-  
-  --pulse-green: 0 0 15px #00A550, 0 0 30px #00A550;
-  --pulse-orange: 0 0 10px #FF7518, 0 0 20px #FF7518;
+  --bg-dark: #0D2018;
+  --jager-green: #1B4332;
+  --jager-orange: #D4530A;
+  --jager-gold: #C9A84C;
+  --text-white: #FFFFFF;
 }
 
 * {
@@ -18,11 +16,9 @@
 }
 
 body {
-  background-color: var(--bg-color);
-  color: var(--text-main);
-  font-family: 'Press Start 2P', monospace, sans-serif;
-  image-rendering: pixelated;
-  -webkit-font-smoothing: none;
+  background-color: var(--bg-dark);
+  color: var(--text-white);
+  font-family: 'Oswald', sans-serif;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -31,63 +27,106 @@ body {
 
 #root {
   width: 100%;
-  max-width: 480px; /* Имитация экрана мобильного / Telegram Mini App */
+  max-width: 420px;
   min-height: 100vh;
-  margin: 0 auto;
-  background-color: var(--bg-color);
-  position: relative;
-  overflow-x: hidden;
+  background-color: var(--bg-dark);
+  display: flex;
+  flex-direction: column;
 }
 
-/* --- Анимации --- */
-@keyframes neon-pulse {
-  0%, 100% { box-shadow: var(--pulse-green); filter: drop-shadow(0 0 5px #00A550); }
-  50% { box-shadow: 0 0 5px #00A550, 0 0 10px #00A550; filter: drop-shadow(0 0 2px #00A550); }
+/* --- СТАРТОВЫЙ ЭКРАН --- */
+.start-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  text-align: center;
+  background: radial-gradient(circle, #143326 0%, #0D2018 100%);
 }
 
-@keyframes active-bar-pulse {
-  0% { transform: scale(0.95); opacity: 0.7; }
-  50% { transform: scale(1.05); opacity: 1; }
-  100% { transform: scale(0.95); opacity: 0.7; }
+.logo-container {
+  margin-bottom: 24px;
 }
 
-@keyframes text-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.2; }
+.hero-logo {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
 }
 
-@keyframes scan-line {
-  0% { top: 0%; }
-  100% { top: 100%; }
+.main-title {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 42px;
+  color: var(--jager-orange);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-/* --- Экран выбора персонажа --- */
+.sub-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  color: var(--jager-gold);
+  font-style: italic;
+  letter-spacing: 1px;
+  margin-bottom: 35px;
+}
+
+.start-hunt-btn {
+  background-color: var(--jager-orange);
+  color: var(--jager-green);
+  font-family: 'Oswald', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(212, 83, 10, 0.4);
+  transition: all 0.2s ease;
+  width: 100%;
+  max-width: 260px;
+  letter-spacing: 1.5px;
+}
+
+.start-hunt-btn:hover {
+  background-color: var(--jager-gold);
+  color: var(--bg-dark);
+  transform: translateY(-2px);
+}
+
+.footer-logo-container {
+  margin-top: 40px;
+}
+
+.footer-brand-logo {
+  width: 80px;
+  opacity: 0.7;
+}
+
+/* --- ЭКРАН ВЫБОРА ПЕРСОНАЖА --- */
 .character-select-screen {
-  min-height: 100vh;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  text-align: center;
 }
 
-.jager-title {
-  color: var(--jager-green);
-  text-shadow: var(--pulse-green);
-  font-size: 22px;
-  margin-bottom: 8px;
+.section-title {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 28px;
+  color: var(--jager-orange);
+  margin-bottom: 25px;
   letter-spacing: 1px;
 }
 
-.subtitle {
-  color: var(--jager-orange);
-  font-size: 9px;
-  margin-bottom: 25px;
-  text-transform: uppercase;
-}
-
-.characters-container {
+.characters-grid {
   display: flex;
   gap: 16px;
   justify-content: center;
@@ -95,74 +134,58 @@ body {
 }
 
 .character-card {
-  background: var(--card-bg);
-  border: 3px solid var(--jager-green);
-  border-radius: 12px;
-  padding: 12px;
-  width: 145px;
-  text-align: center;
+  background-color: #ffffff;
+  border: 2px solid var(--jager-orange);
+  border-radius: 8px;
+  width: 155px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 0 10px rgba(0, 165, 80, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .character-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 0 20px var(--jager-green);
-  border-color: var(--jager-orange);
+  box-shadow: 0 6px 16px rgba(212, 83, 10, 0.4);
 }
 
-.avatar-frame {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 10px auto;
-  border: 2px solid var(--jager-orange);
-  border-radius: 8px;
+.avatar-wrapper {
+  width: 120px;
+  height: 120px;
+  border-radius: 4px;
   overflow: hidden;
-  background: #000;
+  margin-bottom: 10px;
 }
 
-.character-avatar {
+.character-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   image-rendering: pixelated;
 }
 
-.character-card h2 {
-  font-size: 11px;
-  color: var(--text-main);
-  margin: 8px 0 4px 0;
-}
-
-.char-desc {
-  font-size: 7px;
-  color: var(--text-muted);
-  margin-bottom: 10px;
-  line-height: 1.3;
-}
-
-.select-btn {
+/* Брендовая плашка для имен */
+.name-badge {
   background-color: var(--jager-orange);
-  color: #000;
-  border: none;
-  padding: 6px 8px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
-  box-shadow: var(--pulse-orange);
   width: 100%;
-  transition: transform 0.1s;
+  padding: 6px 0;
+  text-align: center;
+  border-radius: 4px;
 }
 
-.select-btn:active {
-  transform: translateY(2px);
-  box-shadow: 0 0 5px var(--jager-orange);
+.name-badge span {
+  font-family: 'Oswald', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--jager-green);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
-/* --- Основной интерфейс приложения (Карта и Хедер) --- */
+/* --- ОСНОВНОЙ ИНТЕРФЕЙС --- */
 .app-container {
   display: flex;
   flex-direction: column;
@@ -174,12 +197,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--card-bg);
-  border: 2px solid var(--jager-green);
+  background: #122b20;
+  border: 2px solid var(--jager-orange);
   padding: 10px 15px;
   border-radius: 8px;
   margin-bottom: 20px;
-  box-shadow: 0 0 10px rgba(0,165,80,0.3);
 }
 
 .header-user-info {
@@ -192,140 +214,41 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 2px solid var(--jager-green);
+  border: 2px solid var(--jager-orange);
   object-fit: cover;
 }
 
 .header-title-text {
-  font-size: 10px;
-  color: var(--jager-green);
+  font-size: 14px;
+  color: var(--jager-gold);
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-/* --- Прогресс-бар --- */
-.progress-container {
-  display: flex;
-  gap: 4px;
-}
-
-.progress-bar-segment {
-  width: 12px;
-  height: 16px;
-  background-color: #222;
-  border: 1px solid #444;
-}
-
-.progress-bar-segment.filled {
-  background-color: var(--jager-green);
-  box-shadow: 0 0 5px var(--jager-green);
-  border-color: var(--jager-green);
-}
-
-/* --- Карточки призов (Лутбоксы) --- */
-.rewards-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.reward-card {
-  background: var(--card-bg);
-  border: 2px solid;
-  border-radius: 10px;
-  padding: 15px;
-  position: relative;
-}
-
-.reward-card.legendary {
-  border-color: #FFD700;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-}
-
-.reward-card.rare {
-  border-color: #9370DB;
-  box-shadow: 0 0 15px rgba(147, 112, 219, 0.3);
-}
-
-.reward-card.common {
-  border-color: var(--jager-green);
-  box-shadow: 0 0 10px rgba(0, 165, 80, 0.2);
-}
-
-.reward-card.exhausted {
-  filter: grayscale(1);
-  opacity: 0.6;
-  border-color: #444;
-  box-shadow: none;
-}
-
-.tier-badge {
-  font-size: 8px;
-  padding: 3px 6px;
+.change-char-btn {
+  background-color: transparent;
+  border: 1px solid var(--jager-gold);
+  color: var(--jager-gold);
+  padding: 5px 8px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
   border-radius: 4px;
-  display: inline-block;
-  margin-bottom: 8px;
-}
-
-.tier-badge.legendary { background: #FFD700; color: #000; }
-.tier-badge.rare { background: #9370DB; color: #fff; }
-.tier-badge.common { background: var(--jager-green); color: #000; }
-
-.stock-counter {
-  font-size: 8px;
-  color: var(--jager-orange);
-  margin: 8px 0;
-}
-
-/* --- Модальное окно камеры / сканирования --- */
-.photo-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0, 0, 0, 0.92);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  z-index: 100;
-}
-
-.camera-frame {
-  width: 100%;
-  max-width: 320px;
-  height: 380px;
-  border: 4px solid var(--jager-green);
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-  background: #050505;
-  box-shadow: var(--pulse-green);
-}
-
-.camera-frame::after {
-  content: '';
-  position: absolute;
-  left: 0; 
-  width: 100%; 
-  height: 3px;
-  background-color: var(--jager-green);
-  box-shadow: var(--pulse-green);
-  animation: scan-line 2s infinite linear;
-}
-
-.take-photo-btn {
-  margin-top: 20px;
-  background-color: var(--jager-orange);
-  color: #000;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 6px;
-  box-shadow: var(--pulse-orange);
   cursor: pointer;
 }
 
-.take-photo-btn:active {
-  transform: translateY(2px);
-  box-shadow: 0 0 5px var(--jager-orange);
+.change-char-btn:hover {
+  background-color: var(--jager-gold);
+  color: var(--bg-dark);
+}
+
+.main-content {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.main-content h2 {
+  color: var(--jager-orange);
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 24px;
+  margin-bottom: 10px;
 }
