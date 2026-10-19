@@ -1,5 +1,5 @@
-/* Подключение шрифтов с Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Oswald:wght@500;700&display=swap');
+/* Подключение шрифта Press Start 2P */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 :root {
   --bg-dark: #0D2018;
@@ -17,8 +17,13 @@
 
 body {
   background-color: var(--bg-dark);
+  /* Пиксельная сетка на фоне */
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 16px 16px;
   color: var(--text-white);
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Press Start 2P', monospace;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -34,96 +39,64 @@ body {
   flex-direction: column;
 }
 
-/* --- СТАРТОВЫЙ ЭКРАН --- */
-.start-screen {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 30px 20px;
-  text-align: center;
-  background: radial-gradient(circle, #143326 0%, #0D2018 100%);
-}
-
-.logo-container {
-  margin-bottom: 24px;
-}
-
-.hero-logo {
-  width: 180px;
-  height: 180px;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
-}
-
-.main-title {
-  font-family: 'UnifrakturMaguntia', cursive;
-  font-size: 42px;
-  color: var(--jager-orange);
-  letter-spacing: 2px;
-  margin-bottom: 8px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-
-.sub-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 14px;
-  color: var(--jager-gold);
-  font-style: italic;
-  letter-spacing: 1px;
-  margin-bottom: 35px;
-}
-
-.start-hunt-btn {
-  background-color: var(--jager-orange);
-  color: var(--jager-green);
-  font-family: 'Oswald', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 14px 32px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(212, 83, 10, 0.4);
-  transition: all 0.2s ease;
-  width: 100%;
-  max-width: 260px;
-  letter-spacing: 1.5px;
-}
-
-.start-hunt-btn:hover {
-  background-color: var(--jager-gold);
-  color: var(--bg-dark);
-  transform: translateY(-2px);
-}
-
-.footer-logo-container {
-  margin-top: 40px;
-}
-
-.footer-brand-logo {
-  width: 80px;
-  opacity: 0.7;
-}
-
-/* --- ЭКРАН ВЫБОРА ПЕРСОНАЖА --- */
-.character-select-screen {
-  flex: 1;
+/* --- СТАРТОВЫЙ ЭКРАН И ВЫБОР ГЕРОЯ --- */
+.start-screen-container {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  text-align: center;
+}
+
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.hero-logo {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+}
+
+.main-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 20px;
+  color: var(--jager-orange);
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  text-shadow: 2px 2px 0px #000;
+}
+
+@keyframes blink-anim {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.blink-arrow {
+  animation: blink-anim 1s infinite steps(1);
+  color: var(--jager-orange);
+  margin-right: 4px;
+}
+
+.sub-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: var(--jager-gold);
+  line-height: 1.8;
+  margin-bottom: 30px;
+  max-width: 320px;
 }
 
 .section-title {
-  font-family: 'UnifrakturMaguntia', cursive;
-  font-size: 28px;
-  color: var(--jager-orange);
-  margin-bottom: 25px;
-  letter-spacing: 1px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 0px #000;
 }
 
 .characters-grid {
@@ -131,33 +104,34 @@ body {
   gap: 16px;
   justify-content: center;
   width: 100%;
+  max-width: 360px;
 }
 
 .character-card {
-  background-color: #ffffff;
-  border: 2px solid var(--jager-orange);
-  border-radius: 8px;
-  width: 155px;
+  background-color: #143326;
+  border: 3px solid var(--jager-orange);
+  border-radius: 0px;
+  width: 150px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 4px 0px #8B2500, 8px 8px 0px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s ease;
 }
 
 .character-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(212, 83, 10, 0.4);
+  transform: translate(-2px, -2px);
 }
 
 .avatar-wrapper {
-  width: 120px;
-  height: 120px;
-  border-radius: 4px;
+  width: 110px;
+  height: 110px;
+  border-radius: 0px;
   overflow: hidden;
   margin-bottom: 10px;
+  background-color: #0D2018;
 }
 
 .character-img {
@@ -167,25 +141,23 @@ body {
   image-rendering: pixelated;
 }
 
-/* Брендовая плашка для имен */
 .name-badge {
   background-color: var(--jager-orange);
   width: 100%;
-  padding: 6px 0;
+  padding: 8px 0;
   text-align: center;
-  border-radius: 4px;
+  border-radius: 0px;
 }
 
 .name-badge span {
-  font-family: 'Oswald', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--jager-green);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #FFFFFF;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  text-shadow: 1px 1px 0px #8B2500;
 }
 
-/* --- ОСНОВНОЙ ИНТЕРФЕЙС --- */
+/* --- ОСНОВНОЙ ИНТЕРФЕЙС И КАРТА --- */
 .app-container {
   display: flex;
   flex-direction: column;
@@ -193,62 +165,6 @@ body {
   padding: 15px;
 }
 
-.app-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #122b20;
-  border: 2px solid var(--jager-orange);
-  padding: 10px 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.header-user-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.header-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 2px solid var(--jager-orange);
-  object-fit: cover;
-}
-
-.header-title-text {
-  font-size: 14px;
-  color: var(--jager-gold);
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.change-char-btn {
-  background-color: transparent;
-  border: 1px solid var(--jager-gold);
-  color: var(--jager-gold);
-  padding: 5px 8px;
-  font-family: 'Oswald', sans-serif;
-  font-size: 12px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.change-char-btn:hover {
-  background-color: var(--jager-gold);
-  color: var(--bg-dark);
-}
-
-.main-content {
-  text-align: center;
-  margin-top: 40px;
-}
-
-.main-content h2 {
-  color: var(--jager-orange);
-  font-family: 'UnifrakturMaguntia', cursive;
-  font-size: 24px;
-  margin-bottom: 10px;
+.pixel-font {
+  font-family: 'Press Start 2P', monospace;
 }

@@ -159,76 +159,120 @@ function App() {
 
   if (!selectedCharacter) {
     return (
-      <div style={{ padding: '20px', textAlign: 'center', backgroundColor: '#0D2018', color: '#fff', minHeight: '100vh', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ 
+        padding: '20px', 
+        textAlign: 'center', 
+        backgroundColor: '#0D2018', 
+        backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
+        backgroundSize: '16px 16px',
+        color: '#fff', 
+        minHeight: '100vh', 
+        boxSizing: 'border-box', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
         <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Oswald:wght@500;700&display=swap');
-          .gothic-font { font-family: 'UnifrakturMaguntia', cursive; }
-          .ui-font { font-family: 'Oswald', sans-serif; }
+          @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+          .pixel-font { font-family: 'Press Start 2P', monospace; }
+          
+          @keyframes blink-anim {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+          }
+          .blink-arrow {
+            animation: blink-anim 1s infinite steps(1);
+            color: #D4530A;
+          }
+          .character-card:hover {
+            transform: translate(-2px, -2px);
+          }
         `}</style>
 
-        {/* 1. Логотип: золотой круг с оленем */}
-        <div style={{ marginTop: '20px', marginBottom: '15px' }}>
+        {/* 1. Золотой логотип-круг с оленем */}
+        <div style={{ marginBottom: '15px' }}>
           <img 
             src="/assets/logo-gold.png" 
             alt="Jager Hunters Gold Logo" 
-            style={{ width: '180px', height: '180px', objectFit: 'contain', filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6))' }} 
+            style={{ width: '130px', height: '130px', objectFit: 'contain', imageRendering: 'pixelated', filter: 'drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5))' }} 
             onError={(e) => { e.target.src = '/logo-gold.png'; }}
           />
         </div>
 
-        {/* 2. Заголовок: JAGER HUNTERS */}
-        <h1 className="gothic-font" style={{ fontSize: '42px', color: '#D4530A', textShadow: '0 2px 4px rgba(0,0,0,0.5)', margin: '0 0 5px 0', letterSpacing: '2px' }}>
+        {/* 2. Заголовок: JAGER HUNTERS (исправлен размер и читаемость на мобильных) */}
+        <h1 className="pixel-font" style={{ fontSize: '15px', color: '#D4530A', textShadow: '2px 2px 0px #000', margin: '0 0 10px 0', letterSpacing: '2px', lineHeight: '1.5' }}>
           JAGER HUNTERS
         </h1>
 
-        {/* 3. Подзаголовок */}
-        <p className="ui-font" style={{ fontSize: '14px', color: '#C9A84C', fontStyle: 'italic', letterSpacing: '1px', marginBottom: '25px' }}>
-          Охота началась. Найди все точки.
+        {/* 3. Подзаголовок с мигающим символом ▶ */}
+        <p className="pixel-font" style={{ fontSize: '8px', color: '#C9A84C', lineHeight: '1.8', marginBottom: '25px', maxWidth: '320px' }}>
+          <span className="blink-arrow">▶</span> Охота началась. Найди все точки.
         </p>
 
-        <div style={{ width: '100%', maxWidth: '400px' }}>
-          <p className="ui-font" style={{ fontSize: '14px', color: '#C9A84C', marginBottom: '15px', letterSpacing: '1px', textTransform: 'uppercase' }}>ВЫБЕРИ ГЕРОЯ:</p>
+        <div style={{ width: '100%', maxWidth: '360px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          {/* 4. Заголовок выбора героя с символом ▼ */}
+          <p className="pixel-font" style={{ fontSize: '10px', color: '#FFFFFF', marginBottom: '15px', textShadow: '1px 1px 0px #000' }}>
+            ▼ ВЫБЕРИ ГЕРОЯ:
+          </p>
           
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '16px', marginTop: '10px' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '16px', width: '100%' }}>
             
             {/* Карточка Хантера */}
             <div 
               onClick={() => handleSelectCharacter('Хантер')} 
-              style={{ backgroundColor: '#ffffff', border: '2px solid #D4530A', borderRadius: '8px', width: '155px', padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)', transition: 'transform 0.2s' }}
+              className="character-card"
+              style={{ 
+                backgroundColor: '#143326', 
+                border: '3px solid #D4530A', 
+                borderRadius: '0px', 
+                width: '150px', 
+                padding: '10px', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                cursor: 'pointer', 
+                boxShadow: '4px 4px 0px #8B2500, 8px 8px 0px rgba(0,0,0,0.3)', 
+                transition: 'transform 0.1s ease' 
+              }}
             >
-              <div style={{ width: '120px', height: '120px', borderRadius: '4px', overflow: 'hidden', marginBottom: '10px' }}>
+              <div style={{ width: '110px', height: '110px', borderRadius: '0px', overflow: 'hidden', marginBottom: '10px', backgroundColor: '#0D2018' }}>
                 <img src="/hunter.jpg" alt="Хантер" style={{ width: '100%', height: '100%', objectFit: 'cover', imageRendering: 'pixelated' }} /> 
               </div>
-              <div style={{ backgroundColor: '#D4530A', width: '100%', padding: '6px 0', textAlign: 'center', borderRadius: '4px' }}>
-                <span className="ui-font" style={{ fontSize: '16px', fontWeight: '700', color: '#1B4332', textTransform: 'uppercase', letterSpacing: '1.5px' }}>ХАНТЕР</span>
+              <div style={{ backgroundColor: '#D4530A', width: '100%', padding: '8px 0', textAlign: 'center', borderRadius: '0px' }}>
+                <span className="pixel-font" style={{ fontSize: '10px', color: '#FFFFFF', textTransform: 'uppercase', textShadow: '1px 1px 0px #8B2500' }}>ХАНТЕР</span>
               </div>
             </div>
 
             {/* Карточка Ханти */}
             <div 
               onClick={() => handleSelectCharacter('Ханти')} 
-              style={{ backgroundColor: '#ffffff', border: '2px solid #D4530A', borderRadius: '8px', width: '155px', padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)', transition: 'transform 0.2s' }}
+              className="character-card"
+              style={{ 
+                backgroundColor: '#143326', 
+                border: '3px solid #D4530A', 
+                borderRadius: '0px', 
+                width: '150px', 
+                padding: '10px', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                cursor: 'pointer', 
+                boxShadow: '4px 4px 0px #8B2500, 8px 8px 0px rgba(0,0,0,0.3)', 
+                transition: 'transform 0.1s ease' 
+              }}
             >
-              <div style={{ width: '120px', height: '120px', borderRadius: '4px', overflow: 'hidden', marginBottom: '10px' }}>
+              <div style={{ width: '110px', height: '110px', borderRadius: '0px', overflow: 'hidden', marginBottom: '10px', backgroundColor: '#0D2018' }}>
                 <img src="/hunti.jpg" alt="Ханти" style={{ width: '100%', height: '100%', objectFit: 'cover', imageRendering: 'pixelated' }} /> 
               </div>
-              <div style={{ backgroundColor: '#D4530A', width: '100%', padding: '6px 0', textAlign: 'center', borderRadius: '4px' }}>
-                <span className="ui-font" style={{ fontSize: '16px', fontWeight: '700', color: '#1B4332', textTransform: 'uppercase', letterSpacing: '1.5px' }}>ХАНТИ</span>
+              <div style={{ backgroundColor: '#D4530A', width: '100%', padding: '8px 0', textAlign: 'center', borderRadius: '0px' }}>
+                <span className="pixel-font" style={{ fontSize: '10px', color: '#FFFFFF', textTransform: 'uppercase', textShadow: '1px 1px 0px #8B2500' }}>ХАНТИ</span>
               </div>
             </div>
 
           </div>
-
-          {/* 4. Логотип Jägermeister внизу */}
-          <div style={{ marginTop: '35px' }}>
-            <img 
-              src="/assets/logo-green.png" 
-              alt="Jägermeister" 
-              style={{ width: '80px', opacity: 0.7 }} 
-              onError={(e) => { e.target.src = '/jager-logo.png'; }}
-            />
-          </div>
         </div>
+        {/* Нижний логотип полностью удален */}
       </div>
     );
   }
@@ -237,16 +281,15 @@ function App() {
     return (
       <div style={{ padding: '25px', textAlign: 'center', backgroundColor: '#0D2018', color: '#fff', minHeight: '100vh', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Oswald:wght@500;700&display=swap');
-          .gothic-font { font-family: 'UnifrakturMaguntia', cursive; }
-          .ui-font { font-family: 'Oswald', sans-serif; }
+          @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+          .pixel-font { font-family: 'Press Start 2P', monospace; }
         `}</style>
-        <div style={{ backgroundColor: '#1B4332', border: '2px solid #D4530A', borderRadius: '12px', padding: '25px', maxWidth: '380px', boxShadow: '0 6px 16px rgba(0,0,0,0.5)' }}>
-          <h2 className="gothic-font" style={{ fontSize: '24px', color: '#D4530A', marginBottom: '20px', letterSpacing: '1px' }}>НАЧАЛО ОХОТЫ</h2>
-          <p className="ui-font" style={{ fontSize: '14px', color: '#ddd', lineHeight: '1.6', textAlign: 'left', marginBottom: '30px' }}>
-            «Город погрузился в ночь. Легендарный рецепт из 56 трав утерян, а его части спрятаны в лучших барах. Твоя миссия — зачистить 8 локаций, отсканировать секретные коды и восстановить рецепт. Охота началась!»
+        <div style={{ backgroundColor: '#143326', border: '3px solid #D4530A', borderRadius: '0px', padding: '25px', maxWidth: '380px', boxShadow: '4px 4px 0px #8B2500' }}>
+          <h2 className="pixel-font" style={{ fontSize: '14px', color: '#D4530A', marginBottom: '20px', lineHeight: '1.5' }}>НАЧАЛО ОХОТЫ</h2>
+          <p className="pixel-font" style={{ fontSize: '9px', color: '#ddd', lineHeight: '1.8', textAlign: 'left', marginBottom: '30px' }}>
+            «Город погрузился в пиксельную ночь. Легендарный рецепт из 56 трав утерян, а его части спрятаны в лучших барах. Твоя миссия — зачистить 8 локаций, отсканировать секретные коды и восстановить рецепт. Охота началась!»
           </p>
-          <button onClick={() => setShowStory(false)} style={{ padding: '14px 32px', fontSize: '16px', backgroundColor: '#D4530A', color: '#1B4332', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: '700', width: '100%', textTransform: 'uppercase', letterSpacing: '1.5px' }} className="ui-font">
+          <button onClick={() => setShowStory(false)} style={{ padding: '14px 20px', fontSize: '10px', backgroundColor: '#D4530A', color: '#fff', border: 'none', borderRadius: '0px', cursor: 'pointer', fontWeight: 'bold', width: '100%', boxShadow: '3px 3px 0px #8B2500' }} className="pixel-font">
             В БОЙ!
           </button>
         </div>
@@ -258,35 +301,34 @@ function App() {
     return (
       <div style={{ padding: '20px', textAlign: 'center', backgroundColor: '#0D2018', color: '#fff', minHeight: '100vh', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Oswald:wght@500;700&display=swap');
-          .gothic-font { font-family: 'UnifrakturMaguntia', cursive; }
-          .ui-font { font-family: 'Oswald', sans-serif; }
+          @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+          .pixel-font { font-family: 'Press Start 2P', monospace; }
         `}</style>
-        <h2 className="gothic-font" style={{ fontSize: '28px', color: '#D4530A', marginBottom: '20px' }}>ЭПИЧЕСКАЯ ПОБЕДА!</h2>
-        <p style={{ fontSize: '14px', marginBottom: '30px', lineHeight: '1.6', maxWidth: '350px' }} className="ui-font">
+        <h2 className="pixel-font" style={{ fontSize: '14px', color: '#D4530A', marginBottom: '20px' }}>ЭПИЧЕСКАЯ ПОБЕДА!</h2>
+        <p style={{ fontSize: '10px', marginBottom: '30px', lineHeight: '1.6', maxWidth: '350px' }} className="pixel-font">
           Рецепт из 56 трав восстановлен! Выбери свой сундук с наградой:
         </p>
         {!selectedReward ? (
           <div style={{ display: 'flex', gap: '20px', marginBottom: '30px' }}>
-            <div onClick={() => handleSelectReward('merch')} style={{ backgroundColor: '#1B4332', border: '2px solid #D4530A', borderRadius: '12px', padding: '20px', width: '140px', cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <div onClick={() => handleSelectReward('merch')} style={{ backgroundColor: '#143326', border: '3px solid #D4530A', borderRadius: '0px', padding: '20px', width: '140px', cursor: 'pointer', boxShadow: '4px 4px 0px #8B2500', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <div style={{ fontSize: '40px', marginBottom: '10px' }}>🎁</div>
-              <span className="ui-font" style={{ fontSize: '11px', color: '#fff', lineHeight: '1.4', textTransform: 'uppercase' }}>ЭПИЧЕСКАЯ ЭКИПИРОВКА<br/>(Мерч)</span>
+              <span className="pixel-font" style={{ fontSize: '8px', color: '#fff', lineHeight: '1.4' }}>ЭПИЧЕСКАЯ ЭКИПИРОВКА<br/>(Мерч)</span>
             </div>
-            <div onClick={() => handleSelectReward('bottle')} style={{ backgroundColor: '#1B4332', border: '2px solid #D4530A', borderRadius: '12px', padding: '15px', width: '140px', cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <div onClick={() => handleSelectReward('bottle')} style={{ backgroundColor: '#143326', border: '3px solid #D4530A', borderRadius: '0px', padding: '15px', width: '140px', cursor: 'pointer', boxShadow: '4px 4px 0px #8B2500', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <img src="/jager-logo.png" alt="Бутылка Jägermeister" style={{ width: '50px', height: '80px', objectFit: 'contain', marginBottom: '8px' }} />
-              <span className="ui-font" style={{ fontSize: '11px', color: '#fff', lineHeight: '1.4', textTransform: 'uppercase' }}>ЛЕГЕНДАРНЫЙ ЭЛИКСИР</span>
+              <span className="pixel-font" style={{ fontSize: '8px', color: '#fff', lineHeight: '1.4' }}>ЛЕГЕНДАРНЫЙ ЭЛИКСИР</span>
             </div>
           </div>
         ) : (
-          <div style={{ backgroundColor: '#1B4332', border: '2px solid #C9A84C', borderRadius: '16px', padding: '20px', maxWidth: '350px', marginBottom: '20px' }}>
-            <h3 className="gothic-font" style={{ fontSize: '18px', color: '#C9A84C', marginBottom: '15px' }}>НАГРАДА ВЫБРАНА!</h3>
-            <p style={{ fontSize: '13px', lineHeight: '1.6', marginBottom: '15px', color: '#ddd' }} className="ui-font">
+          <div style={{ backgroundColor: '#143326', border: '3px solid #4ade80', borderRadius: '0px', padding: '20px', maxWidth: '350px', marginBottom: '20px', boxShadow: '4px 4px 0px #1e5c32' }}>
+            <h3 className="pixel-font" style={{ fontSize: '11px', color: '#4ade80', marginBottom: '15px' }}>НАГРАДА ВЫБРАНА!</h3>
+            <p style={{ fontSize: '9px', lineHeight: '1.6', marginBottom: '15px', color: '#ddd' }} className="pixel-font">
               {selectedReward === 'merch' ? '🎁 Вы выбрали: Лимитированный мерч Jägermeister.' : '🍾 Вы выбрали: Фирменную бутылку Jägermeister.'}
             </p>
-            <p style={{ fontSize: '12px', color: '#D4530A', lineHeight: '1.6', marginBottom: '10px' }} className="ui-font">
+            <p style={{ fontSize: '9px', color: '#D4530A', lineHeight: '1.6', marginBottom: '10px' }} className="pixel-font">
               📍 Где забрать приз:<br/><b>Бар «Флагманский Jager Haus» (ул. Барная, 56)</b>
             </p>
-            <p style={{ fontSize: '10px', color: '#888', lineHeight: '1.5' }} className="ui-font">Покажи этот экран Хранителю (бармену) в призовом баре. Внимание: кнопку «Выдать приз» нажимает только персонал!</p>
+            <p style={{ fontSize: '8px', color: '#888', lineHeight: '1.5' }} className="pixel-font">Покажи этот экран Хранителю (бармену) в призовом баре. Внимание: кнопку «Выдать приз» нажимает только персонал!</p>
           </div>
         )}
       </div>
@@ -296,9 +338,8 @@ function App() {
   return (
     <div style={{ padding: '20px', textAlign: 'center', backgroundColor: '#0D2018', color: '#fff', minHeight: '100vh', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Oswald:wght@500;700&display=swap');
-        .gothic-font { font-family: 'UnifrakturMaguntia', cursive; }
-        .ui-font { font-family: 'Oswald', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        .pixel-font { font-family: 'Press Start 2P', monospace; }
         
         @keyframes patrol-down { 0% { top: -15%; } 100% { top: 115%; } }
         @keyframes patrol-up { 0% { top: 115%; } 100% { top: -15%; } }
@@ -313,11 +354,11 @@ function App() {
         .deer-sprite { display: inline-block; animation: step-bounce 0.6s steps(2) infinite; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.4)); image-rendering: pixelated; }
       `}</style>
       
-      <h1 className="gothic-font" style={{ fontSize: '24px', color: '#D4530A', textShadow: '0 2px 4px rgba(0,0,0,0.5)', marginTop: '10px', letterSpacing: '1px' }}>КАРТА ОХОТЫ</h1>
-      <p style={{ fontSize: '13px', marginTop: '10px', color: '#C9A84C' }} className="ui-font">Охотник: <span style={{color: '#fff'}}>{selectedCharacter}</span></p>
+      <h1 className="pixel-font" style={{ fontSize: '14px', color: '#D4530A', textShadow: '2px 2px 0px #000', marginTop: '10px' }}>КАРТА ОХОТЫ</h1>
+      <p style={{ fontSize: '10px', marginTop: '10px', color: '#4ade80' }} className="pixel-font">Охотник: <span style={{color: '#fff'}}>{selectedCharacter}</span></p>
 
       {isAllCompleted && (
-        <button onClick={() => setGameFinished(true)} style={{ marginTop: '15px', padding: '14px 20px', backgroundColor: '#D4530A', color: '#1B4332', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: '700', width: '100%', maxWidth: '400px', boxShadow: '0 4px 10px rgba(212,83,10,0.4)', zIndex: 10, textTransform: 'uppercase', letterSpacing: '1.5px' }} className="ui-font">
+        <button onClick={() => setGameFinished(true)} style={{ marginTop: '15px', padding: '12px 20px', backgroundColor: '#D4530A', color: '#fff', border: 'none', borderRadius: '0px', cursor: 'pointer', fontWeight: 'bold', width: '100%', maxWidth: '400px', boxShadow: '4px 4px 0px #8B2500', zIndex: 10 }} className="pixel-font">
           ✨ СОБРАТЬ ЭЛИКСИР ✨
         </button>
       )}
@@ -325,7 +366,7 @@ function App() {
       {/* Окно уровня */}
       <div style={{ 
         position: 'relative', marginTop: '30px', width: '100%', maxWidth: '380px', display: 'flex', flexDirection: 'column',
-        backgroundColor: '#143326', padding: '20px 0', borderRadius: '16px', border: '2px solid #1B4332', overflow: 'hidden',
+        backgroundColor: '#143326', padding: '20px 0', borderRadius: '0px', border: '3px solid #1B4332', overflow: 'hidden',
         boxShadow: 'inset 0 0 20px rgba(0,0,0,0.8)'
       }}>
         
@@ -390,15 +431,15 @@ function App() {
           return (
             <div key={loc.id} style={{ display: 'flex', justifyContent: isLeft ? 'flex-start' : 'flex-end', alignItems: 'center', width: '100%', marginBottom: '25px', position: 'relative', zIndex: 3, padding: '0 15px', boxSizing: 'border-box' }}>
               
-              <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', width: '20px', height: '20px', backgroundColor: loc.completed ? '#C9A84C' : '#D4530A', border: `4px solid ${loc.completed ? '#D4530A' : '#1B4332'}`, borderRadius: '50%', zIndex: 4, boxShadow: '0 0 10px rgba(0,0,0,0.8)' }}></div>
+              <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', width: '20px', height: '20px', backgroundColor: loc.completed ? '#FFD700' : '#8B4513', border: `4px solid ${loc.completed ? '#CC5500' : '#5C2E0B'}`, borderRadius: '50%', zIndex: 4, boxShadow: '0 0 10px rgba(0,0,0,0.8)' }}></div>
               
-              <div onClick={() => !loc.completed && setActiveBar(loc)} style={{ backgroundColor: loc.completed ? '#143326' : '#1B4332', border: `2px solid ${loc.completed ? '#C9A84C' : '#D4530A'}`, borderRadius: '8px', padding: '12px 8px', width: '40%', cursor: loc.completed ? 'default' : 'pointer', boxShadow: loc.completed ? '0 4px 8px rgba(0,0,0,0.4)' : '0 4px 12px rgba(212,83,10,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative' }}>
-                <div style={{ fontSize: '24px', marginBottom: '8px', filter: loc.completed ? 'drop-shadow(0 0 5px #C9A84C)' : 'none' }}>
-                  {loc.completed ? <img src="/jager-logo.png" alt="Jager" style={{ width: '32px', height: '32px', objectFit: 'contain', backgroundColor: '#fff', borderRadius: '6px', padding: '2px' }} /> : loc.emoji}
+              <div onClick={() => !loc.completed && setActiveBar(loc)} style={{ backgroundColor: loc.completed ? '#2d1b0d' : '#4a2f1d', border: `3px solid ${loc.completed ? '#FFD700' : '#D4530A'}`, borderRadius: '0px', padding: '12px 8px', width: '40%', cursor: loc.completed ? 'default' : 'pointer', boxShadow: loc.completed ? '3px 3px 0px #1a0f07' : '3px 3px 0px #2b1a0f', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative' }}>
+                <div style={{ fontSize: '24px', marginBottom: '8px', filter: loc.completed ? 'drop-shadow(0 0 5px #FFD700)' : 'none' }}>
+                  {loc.completed ? <img src="/jager-logo.png" alt="Jager" style={{ width: '32px', height: '32px', objectFit: 'contain', backgroundColor: '#fff', borderRadius: '0px', padding: '2px' }} /> : loc.emoji}
                 </div>
-                <span className="ui-font" style={{ fontSize: '10px', color: loc.completed ? '#C9A84C' : '#fff', marginBottom: '4px', fontWeight: '700' }}>{loc.name}</span>
-                <span className="ui-font" style={{ fontSize: '9px', color: loc.completed ? '#ccc' : '#ddd', marginBottom: '10px' }}>{loc.ingredient}</span>
-                <button className="ui-font" style={{ fontSize: '9px', padding: '6px', backgroundColor: loc.completed ? 'transparent' : '#D4530A', color: loc.completed ? '#C9A84C' : '#1B4332', border: loc.completed ? 'none' : '1px solid #C9A84C', borderRadius: '4px', fontWeight: '700', width: '100%', textTransform: 'uppercase' }}>
+                <span className="pixel-font" style={{ fontSize: '8px', color: loc.completed ? '#FFD700' : '#fff', marginBottom: '6px', lineHeight: '1.4' }}>{loc.name}</span>
+                <span className="pixel-font" style={{ fontSize: '7px', color: loc.completed ? '#ccc' : '#e0c097', marginBottom: '10px', lineHeight: '1.3' }}>{loc.ingredient}</span>
+                <button className="pixel-font" style={{ fontSize: '8px', padding: '8px', backgroundColor: loc.completed ? 'transparent' : '#D4530A', color: loc.completed ? '#FFD700' : '#fff', border: loc.completed ? 'none' : '2px solid #8B2500', borderRadius: '0px', fontWeight: 'bold', width: '100%', textShadow: loc.completed ? 'none' : '1px 1px 0 #111' }}>
                   {loc.completed ? '✅' : 'СКАН'}
                 </button>
               </div>
@@ -409,13 +450,13 @@ function App() {
 
       {activeBar && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px', zIndex: 100 }}>
-          <div style={{ backgroundColor: '#1B4332', border: '2px solid #D4530A', borderRadius: '16px', padding: '20px', maxWidth: '320px', textAlign: 'center', boxShadow: '0 0 20px rgba(212,83,10,0.3)' }}>
-            <h3 className="gothic-font" style={{ fontSize: '20px', color: '#D4530A', marginBottom: '15px' }}>{activeBar.name}</h3>
-            <p className="ui-font" style={{ fontSize: '13px', marginBottom: '15px' }}>Артефакт: <span style={{ fontSize: '24px', verticalAlign: 'middle' }}>{activeBar.emoji}</span> <b style={{ color: '#C9A84C' }}>{activeBar.ingredient}</b></p>
-            <p className="ui-font" style={{ fontSize: '11px', color: '#aaa', marginBottom: '20px', lineHeight: '1.5' }}>Наведите камеру на тейбл-тент в баре для сбора ингредиента.</p>
+          <div style={{ backgroundColor: '#143326', border: '3px solid #D4530A', borderRadius: '0px', padding: '20px', maxWidth: '320px', textAlign: 'center', boxShadow: '4px 4px 0px #8B2500' }}>
+            <h3 className="pixel-font" style={{ fontSize: '11px', color: '#D4530A', marginBottom: '15px' }}>{activeBar.name}</h3>
+            <p className="pixel-font" style={{ fontSize: '10px', marginBottom: '15px' }}>Артефакт: <span style={{ fontSize: '20px', verticalAlign: 'middle' }}>{activeBar.emoji}</span> <b style={{ color: '#C9A84C' }}>{activeBar.ingredient}</b></p>
+            <p className="pixel-font" style={{ fontSize: '8px', color: '#aaa', marginBottom: '20px', lineHeight: '1.6' }}>Наведите камеру на тейбл-тент в баре для сбора ингредиента.</p>
             <div style={{ display: 'flex', gap: '10px' }}>
-              <button onClick={() => handleScanQRCode(activeBar.id)} style={{ flex: 1, padding: '12px', backgroundColor: '#D4530A', color: '#1B4332', border: 'none', borderRadius: '4px', fontWeight: '700', cursor: 'pointer', textTransform: 'uppercase' }} className="ui-font">СКАНЕР</button>
-              <button onClick={() => setActiveBar(null)} style={{ flex: 1, padding: '12px', backgroundColor: '#143326', color: '#fff', border: '1px solid #C9A84C', borderRadius: '4px', fontWeight: '700', cursor: 'pointer', textTransform: 'uppercase' }} className="ui-font">НАЗАД</button>
+              <button onClick={() => handleScanQRCode(activeBar.id)} style={{ flex: 1, padding: '10px', backgroundColor: '#D4530A', color: '#fff', border: 'none', borderRadius: '0px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '3px 3px 0px #8B2500' }} className="pixel-font">СКАНЕР</button>
+              <button onClick={() => setActiveBar(null)} style={{ flex: 1, padding: '10px', backgroundColor: '#1B4332', color: '#fff', border: 'none', borderRadius: '0px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '3px 3px 0px #0D2018' }} className="pixel-font">НАЗАД</button>
             </div>
           </div>
         </div>
