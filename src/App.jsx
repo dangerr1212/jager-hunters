@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import WebApp from '@twa-dev/sdk';
 
 function App() {
@@ -21,6 +21,10 @@ function App() {
   const [gameFinished, setGameFinished] = useState(false);
   const [selectedReward, setSelectedReward] = useState(null);
 
+  // Рефы для изображений персонажей на этапе выбора для применения canvas-пикселизации
+  const hunterImgRef = useRef(null);
+  const huntiImgRef = useRef(null);
+
   const [locations, setLocations] = useState([
     { id: 1, name: 'Бар №1', ingredient: 'Корень имбиря', emoji: '🫚', completed: false },
     { id: 2, name: 'Бар №2', ingredient: 'Звёздчатый анис', emoji: '⭐', completed: false },
@@ -33,6 +37,35 @@ function App() {
   ]);
 
   const isAllCompleted = locations.every(loc => loc.completed);
+
+  // Функция canvas-пикселизации изображения
+  const pixelateImage = (imgElement) => {
+    if (!imgElement) return;
+    const canvas = document.createElement('canvas');
+    const size = 32; // чем меньше — тем грубее пиксели
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    
+    // Рисуем картинку после её загрузки
+    if (imgElement.complete) {
+      ctx.drawImage(imgElement, 0, 0, size, size);
+      imgElement.src = canvas.toDataURL();
+    } else {
+      imgElement.onload = () => {
+        ctx.drawImage(imgElement, 0, 0, size, size);
+        imgElement.src = canvas.toDataURL();
+      };
+    }
+  };
+
+  useEffect(() => {
+    if (!selectedCharacter) {
+      pixelateImage(hunterImgRef.current);
+      pixelateImage(huntiImgRef.current);
+    }
+  }, [selectedCharacter]);
 
   useEffect(() => {
     fetch(`https://jager-hunters.onrender.com/api/user/${telegramId}`)
@@ -159,120 +192,56 @@ function App() {
 
   if (!selectedCharacter) {
     return (
-      <div style={{ 
-        padding: '20px', 
-        textAlign: 'center', 
-        backgroundColor: '#0D2018', 
-        backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
-        backgroundSize: '16px 16px',
-        color: '#fff', 
-        minHeight: '100vh', 
-        boxSizing: 'border-box', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-          .pixel-font { font-family: 'Press Start 2P', monospace; }
-          
-          @keyframes blink-anim {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-          }
-          .blink-arrow {
-            animation: blink-anim 1s infinite steps(1);
-            color: #D4530A;
-          }
-          .character-card:hover {
-            transform: translate(-2px, -2px);
-          }
-        `}</style>
-
-        {/* 1. Золотой логотип-круг с оленем */}
-        <div style={{ marginBottom: '15px' }}>
+      <div className="start-screen-container">
+        {/* Логотип увеличен до 220px */}
+        <div className="logo-container">
           <img 
             src="/assets/logo-gold.png" 
             alt="Jager Hunters Gold Logo" 
-            style={{ width: '130px', height: '130px', objectFit: 'contain', imageRendering: 'pixelated', filter: 'drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5))' }} 
+            className="hero-logo" 
             onError={(e) => { e.target.src = '/logo-gold.png'; }}
           />
         </div>
 
-        {/* 2. Заголовок: JAGER HUNTERS (исправлен размер и читаемость на мобильных) */}
-        <h1 className="pixel-font" style={{ fontSize: '15px', color: '#D4530A', textShadow: '2px 2px 0px #000', margin: '0 0 10px 0', letterSpacing: '2px', lineHeight: '1.5' }}>
-          JAGER HUNTERS
-        </h1>
+        <h1 className="main-title">JAGER HUNTERS</h1>
 
-        {/* 3. Подзаголовок с мигающим символом ▶ */}
-        <p className="pixel-font" style={{ fontSize: '8px', color: '#C9A84C', lineHeight: '1.8', marginBottom: '25px', maxWidth: '320px' }}>
+        <p className="sub-title">
           <span className="blink-arrow">▶</span> Охота началась. Найди все точки.
         </p>
 
-        <div style={{ width: '100%', maxWidth: '360px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          {/* 4. Заголовок выбора героя с символом ▼ */}
-          <p className="pixel-font" style={{ fontSize: '10px', color: '#FFFFFF', marginBottom: '15px', textShadow: '1px 1px 0px #000' }}>
-            ▼ ВЫБЕРИ ГЕРОЯ:
-          </p>
-          
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '16px', width: '100%' }}>
-            
-            {/* Карточка Хантера */}
-            <div 
-              onClick={() => handleSelectCharacter('Хантер')} 
-              className="character-card"
-              style={{ 
-                backgroundColor: '#143326', 
-                border: '3px solid #D4530A', 
-                borderRadius: '0px', 
-                width: '150px', 
-                padding: '10px', 
-                display: 'flex', 
-                flexDirection: 'column', 
-                alignItems: 'center', 
-                cursor: 'pointer', 
-                boxShadow: '4px 4px 0px #8B2500, 8px 8px 0px rgba(0,0,0,0.3)', 
-                transition: 'transform 0.1s ease' 
-              }}
-            >
-              <div style={{ width: '110px', height: '110px', borderRadius: '0px', overflow: 'hidden', marginBottom: '10px', backgroundColor: '#0D2018' }}>
-                <img src="/hunter.jpg" alt="Хантер" style={{ width: '100%', height: '100%', objectFit: 'cover', imageRendering: 'pixelated' }} /> 
-              </div>
-              <div style={{ backgroundColor: '#D4530A', width: '100%', padding: '8px 0', textAlign: 'center', borderRadius: '0px' }}>
-                <span className="pixel-font" style={{ fontSize: '10px', color: '#FFFFFF', textTransform: 'uppercase', textShadow: '1px 1px 0px #8B2500' }}>ХАНТЕР</span>
-              </div>
-            </div>
+        <h2 className="section-title">▼ ВЫБЕРИ ГЕРОЯ:</h2>
 
-            {/* Карточка Ханти */}
-            <div 
-              onClick={() => handleSelectCharacter('Ханти')} 
-              className="character-card"
-              style={{ 
-                backgroundColor: '#143326', 
-                border: '3px solid #D4530A', 
-                borderRadius: '0px', 
-                width: '150px', 
-                padding: '10px', 
-                display: 'flex', 
-                flexDirection: 'column', 
-                alignItems: 'center', 
-                cursor: 'pointer', 
-                boxShadow: '4px 4px 0px #8B2500, 8px 8px 0px rgba(0,0,0,0.3)', 
-                transition: 'transform 0.1s ease' 
-              }}
-            >
-              <div style={{ width: '110px', height: '110px', borderRadius: '0px', overflow: 'hidden', marginBottom: '10px', backgroundColor: '#0D2018' }}>
-                <img src="/hunti.jpg" alt="Ханти" style={{ width: '100%', height: '100%', objectFit: 'cover', imageRendering: 'pixelated' }} /> 
-              </div>
-              <div style={{ backgroundColor: '#D4530A', width: '100%', padding: '8px 0', textAlign: 'center', borderRadius: '0px' }}>
-                <span className="pixel-font" style={{ fontSize: '10px', color: '#FFFFFF', textTransform: 'uppercase', textShadow: '1px 1px 0px #8B2500' }}>ХАНТИ</span>
-              </div>
+        <div className="characters-grid">
+          {/* Карточка Хантера */}
+          <div className="character-card" onClick={() => handleSelectCharacter('Хантер')}>
+            <div className="avatar-wrapper">
+              <img 
+                ref={hunterImgRef}
+                src="/hunter.jpg" 
+                alt="Хантер" 
+                className="character-img" 
+              />
             </div>
+            <div className="name-badge">
+              <span>ХАНТЕР</span>
+            </div>
+          </div>
 
+          {/* Карточка Ханти */}
+          <div className="character-card" onClick={() => handleSelectCharacter('Ханти')}>
+            <div className="avatar-wrapper">
+              <img 
+                ref={huntiImgRef}
+                src="/hunti.jpg" 
+                alt="Ханти" 
+                className="character-img" 
+              />
+            </div>
+            <div className="name-badge">
+              <span>ХАНТИ</span>
+            </div>
           </div>
         </div>
-        {/* Нижний логотип полностью удален */}
       </div>
     );
   }
@@ -280,10 +249,7 @@ function App() {
   if (showStory) {
     return (
       <div style={{ padding: '25px', textAlign: 'center', backgroundColor: '#0D2018', color: '#fff', minHeight: '100vh', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-          .pixel-font { font-family: 'Press Start 2P', monospace; }
-        `}</style>
+        <style>{`@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); .pixel-font { font-family: 'Press Start 2P', monospace; }`}</style>
         <div style={{ backgroundColor: '#143326', border: '3px solid #D4530A', borderRadius: '0px', padding: '25px', maxWidth: '380px', boxShadow: '4px 4px 0px #8B2500' }}>
           <h2 className="pixel-font" style={{ fontSize: '14px', color: '#D4530A', marginBottom: '20px', lineHeight: '1.5' }}>НАЧАЛО ОХОТЫ</h2>
           <p className="pixel-font" style={{ fontSize: '9px', color: '#ddd', lineHeight: '1.8', textAlign: 'left', marginBottom: '30px' }}>
@@ -300,10 +266,7 @@ function App() {
   if (gameFinished) {
     return (
       <div style={{ padding: '20px', textAlign: 'center', backgroundColor: '#0D2018', color: '#fff', minHeight: '100vh', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-          .pixel-font { font-family: 'Press Start 2P', monospace; }
-        `}</style>
+        <style>{`@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); .pixel-font { font-family: 'Press Start 2P', monospace; }`}</style>
         <h2 className="pixel-font" style={{ fontSize: '14px', color: '#D4530A', marginBottom: '20px' }}>ЭПИЧЕСКАЯ ПОБЕДА!</h2>
         <p style={{ fontSize: '10px', marginBottom: '30px', lineHeight: '1.6', maxWidth: '350px' }} className="pixel-font">
           Рецепт из 56 трав восстановлен! Выбери свой сундук с наградой:
