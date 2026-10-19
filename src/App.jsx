@@ -11,7 +11,7 @@ function App() {
     }
   }, [twa]);
 
-  const telegramId = twa?.initDataUnsafe?.user?.id?.toString() || 'test_user_13323';
+  const telegramId = twa?.initDataUnsafe?.user?.id?.toString() || 'test_user_13322fd3';
   const userName = twa?.initDataUnsafe?.user?.first_name || 'Охотник';
 
   const [selectedCharacter, setSelectedCharacter] = useState(null);
