@@ -41,11 +41,17 @@ body {
 
 .title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 15px;
+  font-size: 18px;
   color: #D4530A;
-  letter-spacing: 2px;
+  text-shadow: 
+    3px 3px 0px #8B2500,
+    -1px -1px 0px #000,
+    1px -1px 0px #000;
+  letter-spacing: 3px;
   text-align: center;
-  text-shadow: 2px 2px 0 #8B2500, 4px 4px 0 rgba(0,0,0,0.3);
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  margin: 0;
 }
 
 .subtitle {
@@ -53,7 +59,8 @@ body {
   font-size: 7px;
   color: #C9A84C;
   text-align: center;
-  line-height: 2;
+  line-height: 1.8;
+  margin: 0;
 }
 
 .choose-label {
@@ -61,15 +68,100 @@ body {
   font-size: 9px;
   color: #FFFFFF;
   text-shadow: 1px 1px 0 #D4530A;
+  margin: 0;
 }
 
-@keyframes blink-anim {
+.characters {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: center;
+  width: 100%;
+}
+
+.character-card {
+  background: #0D2018 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 3px solid #D4530A;
+  border-radius: 0;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px #8B2500;
+  transition: transform 0.1s;
+  width: 130px;
+}
+
+.character-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #8B2500;
+}
+
+.character-card img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  width: 96px !important;
+  height: 96px !important;
+  padding: 8px;
+  object-fit: cover;
+}
+
+.character-name {
+  width: 100%;
+  background: #D4530A;
+  color: #FFFFFF;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  text-align: center;
+  padding: 8px 0;
+  border-radius: 0;
+  box-sizing: border-box;
+  text-shadow: 1px 1px 0px #8B2500;
+}
+
+/* НОВЫЕ ЭЛЕМЕНТЫ: СЧЕТЧИК, РАЗДЕЛИТЕЛЬ, ПОДСКАЗКА */
+.prize-counter {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #C9A84C;
+  background: #1a0a00;
+  border: 2px solid #8B2500;
+  padding: 6px 10px;
+  text-align: center;
+  box-shadow: 3px 3px 0px #000;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { border-color: #8B2500; }
+  50% { border-color: #D4530A; }
+}
+
+.pixel-divider {
+  width: 80%;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    #D4530A 0px, #D4530A 8px,
+    transparent 8px, transparent 16px
+  );
+}
+
+.hint-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #C9A84C;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
 
 .blink-arrow {
-  animation: blink-anim 1s infinite steps(1);
+  animation: blink 1s step-end infinite;
   color: #D4530A;
   margin-right: 4px;
 }

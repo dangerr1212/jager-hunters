@@ -180,7 +180,11 @@ function App() {
   if (!selectedCharacter) {
     return (
       <div className="app">
-        {/* ЖЕСТКИЕ СТИЛИ ЛОГОТИПА */}
+        
+        <div className="prize-counter">
+          🏆 ОСТАЛОСЬ ПРИЗОВ: <span>47</span>
+        </div>
+
         <div style={{
           width: '120px',
           maxWidth: '120px',
@@ -206,14 +210,15 @@ function App() {
         
         <h1 className="title">JAGER HUNTERS</h1>
         
+        <div className="pixel-divider"></div>
+
         <p className="subtitle">
           <span className="blink-arrow">▶</span> Охота началась. Найди все точки.
         </p>
 
         <p className="choose-label">▼ ВЫБЕРИ ГЕРОЯ:</p>
 
-        {/* ПЕРСОНАЖИ В РЯД */}
-        <div style={{
+        <div className="characters" style={{
           display: 'flex',
           flexDirection: 'row',
           gap: '16px',
@@ -221,25 +226,29 @@ function App() {
           width: '100%'
         }}>
           {/* КАРТОЧКА ХАНТЕРА */}
-          <div onClick={() => handleSelectCharacter('Хантер')} style={{
+          <div className="character-card" onClick={() => handleSelectCharacter('Хантер')} style={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             width: '140px',
             border: '3px solid #D4530A',
             boxShadow: '4px 4px 0px #8B2500',
-            cursor: 'pointer',
-            background: '#0a1a0f'
+            cursor: 'pointer'
           }}>
             <img 
               ref={hunterImgRef}
               src="/hunter.jpg" 
-              width="110" 
-              height="110"
-              style={{imageRendering:'pixelated', padding:'8px'}} 
+              width="96" 
+              height="96"
+              style={{
+                imageRendering: 'pixelated',
+                msInterpolationMode: 'nearest-neighbor',
+                display: 'block',
+                padding: '8px'
+              }} 
               alt="Хантер"
             />
-            <div style={{
+            <div className="character-name" style={{
               width:'100%',
               background:'#D4530A',
               color:'#fff',
@@ -253,25 +262,29 @@ function App() {
           </div>
 
           {/* КАРТОЧКА ХАНТИ */}
-          <div onClick={() => handleSelectCharacter('Ханти')} style={{
+          <div className="character-card" onClick={() => handleSelectCharacter('Ханти')} style={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             width: '140px',
             border: '3px solid #D4530A',
             boxShadow: '4px 4px 0px #8B2500',
-            cursor: 'pointer',
-            background: '#0a1a0f'
+            cursor: 'pointer'
           }}>
             <img 
               ref={huntiImgRef}
               src="/hunti.jpg" 
-              width="110" 
-              height="110"
-              style={{imageRendering:'pixelated', padding:'8px'}} 
+              width="96" 
+              height="96"
+              style={{
+                imageRendering: 'pixelated',
+                msInterpolationMode: 'nearest-neighbor',
+                display: 'block',
+                padding: '8px'
+              }} 
               alt="Ханти"
             />
-            <div style={{
+            <div className="character-name" style={{
               width:'100%',
               background:'#D4530A',
               color:'#fff',
@@ -284,6 +297,9 @@ function App() {
             </div>
           </div>
         </div>
+
+        <div className="hint-text">▶ НАЖМИ НА ГЕРОЯ ◀</div>
+
       </div>
     );
   }
@@ -293,7 +309,7 @@ function App() {
     return (
       <div className="app">
         <div style={{ backgroundColor: '#143326', border: '3px solid #D4530A', padding: '20px', maxWidth: '340px', boxShadow: '4px 4px 0px #8B2500', textAlign: 'center' }}>
-          <h2 className="title" style={{ fontSize: '12px', marginBottom: '15px', textShadow: 'none' }}>НАЧАЛО ОХОТЫ</h2>
+          <h2 className="title" style={{ fontSize: '12px', marginBottom: '15px', textShadow: 'none', letterSpacing: '1px' }}>НАЧАЛО ОХОТЫ</h2>
           <p className="subtitle" style={{ fontSize: '8px', color: '#ddd', textAlign: 'left', marginBottom: '20px', textShadow: 'none' }}>
             «Город погрузился в пиксельную ночь. Легендарный рецепт из 56 трав утерян, а его части спрятаны в лучших барах. Твоя миссия — зачистить 8 локаций, отсканировать секретные коды и восстановить рецепт. Охота началась!»
           </p>
@@ -322,18 +338,18 @@ function App() {
             justifyContent: 'center',
             width: '100%'
           }}>
-            <div onClick={() => handleSelectReward('merch')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '140px', border: '3px solid #D4530A', boxShadow: '4px 4px 0px #8B2500', cursor: 'pointer', background: '#0a1a0f', padding: '15px' }}>
+            <div onClick={() => handleSelectReward('merch')} className="character-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '140px', border: '3px solid #D4530A', boxShadow: '4px 4px 0px #8B2500', cursor: 'pointer', padding: '15px' }}>
               <div style={{ fontSize: '32px', marginBottom: '8px' }}>🎁</div>
               <div style={{ width:'100%', background:'transparent', color:'#fff', fontFamily:"'Press Start 2P'", fontSize:'7px', textAlign:'center' }}>ЭПИЧЕСКАЯ ЭКИПИРОВКА<br/>(Мерч)</div>
             </div>
-            <div onClick={() => handleSelectReward('bottle')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '140px', border: '3px solid #D4530A', boxShadow: '4px 4px 0px #8B2500', cursor: 'pointer', background: '#0a1a0f', padding: '12px' }}>
+            <div onClick={() => handleSelectReward('bottle')} className="character-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '140px', border: '3px solid #D4530A', boxShadow: '4px 4px 0px #8B2500', cursor: 'pointer', padding: '12px' }}>
               <img src="/jager-logo.png" alt="Бутылка" style={{ width: '40px', height: '60px', padding: 0, marginBottom: '6px' }} />
               <div style={{ width:'100%', background:'transparent', color:'#fff', fontFamily:"'Press Start 2P'", fontSize:'7px', textAlign:'center' }}>ЛЕГЕНДАРНЫЙ ЭЛИКСИР</div>
             </div>
           </div>
         ) : (
           <div style={{ backgroundColor: '#143326', border: '3px solid #4ade80', padding: '15px', maxWidth: '340px', textAlign: 'center', boxShadow: '4px 4px 0px #1e5c32' }}>
-            <h3 className="title" style={{ fontSize: '10px', color: '#4ade80', marginBottom: '12px', textShadow: 'none' }}>НАГРАДА ВЫБРАНА!</h3>
+            <h3 className="title" style={{ fontSize: '10px', color: '#4ade80', marginBottom: '12px', textShadow: 'none', letterSpacing: '1px' }}>НАГРАДА ВЫБРАНА!</h3>
             <p className="choose-label" style={{ fontSize: '8px', lineHeight: '1.6', marginBottom: '12px', textShadow: 'none' }}>
               {selectedReward === 'merch' ? '🎁 Вы выбрали: Лимитированный мерч Jägermeister.' : '🍾 Вы выбрали: Фирменную бутылку Jägermeister.'}
             </p>
@@ -350,7 +366,7 @@ function App() {
   // --- ЭКРАН 4: КАРТА ИГРЫ ---
   return (
     <div className="app" style={{ justifyContent: 'flex-start', overflowY: 'auto' }}>
-      <h1 className="title" style={{ fontSize: '12px', marginTop: '5px' }}>КАРТА ОХОТЫ</h1>
+      <h1 className="title" style={{ fontSize: '12px', marginTop: '5px', letterSpacing: '1px' }}>КАРТА ОХОТЫ</h1>
       <p className="choose-label" style={{ fontSize: '9px', marginTop: '6px', color: '#4ade80', textShadow: '1px 1px 0 #1B4332' }}>
         Охотник: <span style={{color: '#fff'}}>{selectedCharacter}</span>
       </p>
@@ -389,8 +405,8 @@ function App() {
 
       {activeBar && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px', zIndex: 100 }}>
-          <div style={{ backgroundColor: '#143326', border: '3px solid #D4530A', padding: '20px', maxWidth: '320px', textAlign: 'center', boxShadow: '4px 4px 0px #8B2500' }}>
-            <h3 className="title" style={{ fontSize: '10px', marginBottom: '12px', textShadow: 'none' }}>{activeBar.name}</h3>
+          <div style={{ backgroundColor: '#143326', padding: '20px', maxWidth: '320px', textAlign: 'center', boxShadow: '0 -3px 0 0 #D4530A, 0 3px 0 0 #D4530A, -3px 0 0 0 #D4530A, 3px 0 0 0 #D4530A, 0 6px 0 0 #8B2500' }}>
+            <h3 className="title" style={{ fontSize: '10px', marginBottom: '12px', textShadow: 'none', letterSpacing: '1px' }}>{activeBar.name}</h3>
             <p className="choose-label" style={{ fontSize: '9px', marginBottom: '12px', textShadow: 'none' }}>Артефакт: <span style={{ fontSize: '18px', verticalAlign: 'middle' }}>{activeBar.emoji}</span> <b style={{ color: '#C9A84C' }}>{activeBar.ingredient}</b></p>
             <p className="subtitle" style={{ fontSize: '7px', color: '#aaa', marginBottom: '15px' }}>Наведите камеру на тейбл-тент в баре.</p>
             <div style={{ display: 'flex', gap: '10px' }}>
