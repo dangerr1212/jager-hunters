@@ -1,15 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-/* ЖЕСТКО ЗАДАЕМ ТЕМНО-ЗЕЛЕНЫЙ ФОН */
-body, #root {
+* { 
+  box-sizing: border-box; 
   margin: 0; 
-  padding: 0;
-  background-color: #0D2018 !important; 
-  background-image: 
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px) !important;
-  background-size: 16px 16px !important;
+  padding: 0; 
+}
+
+html, body, #root {
+  background-color: #0D2018;
   min-height: 100vh;
+}
+
+body {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 16px 16px;
+  color: #FFFFFF;
 }
 
 .app {
@@ -17,39 +24,38 @@ body, #root {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   min-height: 100vh;
-  padding: 16px;
-  box-sizing: border-box;
-  overflow: hidden;
-  background-color: #0D2018 !important;
+  gap: 14px;
+  padding: 20px 16px;
+  background: transparent;
 }
 
-/* ОГРАНИЧЕНИЕ КОНТЕЙНЕРА ЛОГОТИПА */
-.logo-container {
-  display: inline-block;
-  margin-bottom: 5px;
+.logo-container { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
 }
 
-/* ЖЕСТКОЕ ОГРАНИЧЕНИЕ ЛОГОТИПА */
-.logo, .hero-logo { 
-  max-width: 120px !important;
-  max-height: 120px !important;
-  width: 120px !important;
-  height: 120px !important;
-  object-fit: contain !important; 
-  image-rendering: pixelated;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+.logo { 
+  width: 110px !important; 
+  height: 110px !important; 
+  max-width: 110px !important;
+  object-fit: contain; 
 }
 
-.title { 
-  font-family: 'Press Start 2P', monospace; 
-  font-size: 14px; 
+.logo-label {
+  max-width: 130px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 15px;
   color: #D4530A;
-  text-align: center;
   letter-spacing: 2px;
-  margin: 0;
-  text-shadow: 2px 2px 0px #000;
+  text-align: center;
+  text-shadow: 2px 2px 0 #8B2500, 4px 4px 0 rgba(0,0,0,0.3);
 }
 
 .subtitle {
@@ -57,22 +63,20 @@ body, #root {
   font-size: 7px;
   color: #C9A84C;
   text-align: center;
-  line-height: 1.8;
-  margin: 0;
+  line-height: 2;
 }
 
 .choose-label {
   font-family: 'Press Start 2P', monospace;
   font-size: 9px;
   color: #FFFFFF;
-  margin: 0;
-  text-shadow: 1px 1px 0px #000;
+  text-shadow: 1px 1px 0 #D4530A;
 }
 
 .characters {
   display: flex;
   flex-direction: row;
-  gap: 16px;
+  gap: 12px;
   justify-content: center;
   width: 100%;
 }
@@ -81,40 +85,50 @@ body, #root {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 3px solid #D4530A;
-  border-radius: 0;
-  background: #0D2018;
+  width: 145px;
+  background: #0a1a0f;
+  border: 0px solid #D4530A;
+  box-shadow:
+    0 -3px 0 0 #D4530A,
+    0 3px 0 0 #D4530A,
+    -3px 0 0 0 #D4530A,
+    3px 0 0 0 #D4530A,
+    0 -6px 0 0 #8B2500,
+    0 6px 0 0 #8B2500,
+    -6px 0 0 0 #8B2500,
+    6px 0 0 0 #8B2500;
   cursor: pointer;
-  box-shadow: 4px 4px 0px #8B2500;
   transition: transform 0.1s;
-  width: 130px;
 }
 
-.character-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px #8B2500;
+.character-card:active {
+  transform: translate(3px, 3px);
+  box-shadow:
+    0 -3px 0 0 #D4530A,
+    0 3px 0 0 #D4530A,
+    -3px 0 0 0 #D4530A,
+    3px 0 0 0 #D4530A;
 }
 
 .character-card img {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  padding: 8px;
+  padding: 10px;
   object-fit: cover;
 }
 
 .character-name {
   width: 100%;
   background: #D4530A;
-  color: #FFFFFF;
+  color: #fff;
   font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
+  font-size: 8px;
   text-align: center;
-  padding: 8px 0;
-  border-radius: 0;
+  padding: 10px 0;
   box-sizing: border-box;
-  text-shadow: 1px 1px 0px #8B2500;
+  box-shadow: 0 3px 0 #8B2500;
 }
 
 @keyframes blink-anim {
