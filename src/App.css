@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
 * { 
   box-sizing: border-box; 
   margin: 0; 
@@ -13,8 +11,8 @@ html, body, #root {
 
 body {
   background-image:
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px) !important;
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px) !important;
   background-size: 16px 16px !important;
   color: #FFFFFF;
 }
@@ -30,30 +28,48 @@ body {
   background: transparent !important;
 }
 
-/* ЖЕСТКИЕ ПРАВИЛА ДЛЯ ЛЮБЫХ КЛАССОВ С ЛОГОТИПОМ */
+/* ОГРАНИЧЕНИЕ ЛОГОТИПА */
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
+  max-width: 120px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
 .logo, [class*="logo"], [class*="Logo"] {
-  width: 120px !important;
-  height: 120px !important;
-  max-width: 120px !important;
-  max-height: 120px !important;
+  width: 110px !important;
+  height: 110px !important;
+  max-width: 110px !important;
+  max-height: 110px !important;
   object-fit: contain !important;
 }
 
+.logo-label {
+  max-width: 130px;
+  width: 100%;
+  object-fit: contain;
+  height: 30px !important;
+  margin-top: 5px;
+}
+
+/* ЗАГОЛОВОК JAGER HUNTERS (ГОТИЧЕСКИЙ ШРИФТ) */
 .title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 18px;
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 42px;
   color: #D4530A;
   text-shadow: 
-    3px 3px 0px #8B2500,
-    -1px -1px 0px #000,
-    1px -1px 0px #000;
-  letter-spacing: 3px;
+    2px 2px 0px #8B2500,
+    0 0 20px rgba(212, 83, 10, 0.4);
+  letter-spacing: 2px;
   text-align: center;
-  -webkit-font-smoothing: none;
-  font-smooth: never;
+  line-height: 1;
   margin: 0;
 }
 
+/* ПОДЗАГОЛОВКИ */
 .subtitle {
   font-family: 'Press Start 2P', monospace;
   font-size: 7px;
@@ -66,11 +82,12 @@ body {
 .choose-label {
   font-family: 'Press Start 2P', monospace;
   font-size: 9px;
-  color: #FFFFFF;
-  text-shadow: 1px 1px 0 #D4530A;
+  color: #C9A84C;
+  text-shadow: 1px 1px 0 #8B2500;
   margin: 0;
 }
 
+/* КАРТОЧКИ ПЕРСОНАЖЕЙ */
 .characters {
   display: flex;
   flex-direction: row;
@@ -89,7 +106,7 @@ body {
   cursor: pointer;
   box-shadow: 4px 4px 0px #8B2500;
   transition: transform 0.1s;
-  width: 130px;
+  width: 145px;
 }
 
 .character-card:hover {
@@ -98,11 +115,11 @@ body {
 }
 
 .character-card img {
-  image-rendering: -webkit-optimize-contrast;
+  width: 110px !important;
+  height: 110px !important;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  width: 96px !important;
-  height: 96px !important;
+  display: block;
   padding: 8px;
   object-fit: cover;
 }
@@ -112,7 +129,7 @@ body {
   background: #D4530A;
   color: #FFFFFF;
   font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
+  font-size: 8px;
   text-align: center;
   padding: 8px 0;
   border-radius: 0;
@@ -120,17 +137,21 @@ body {
   text-shadow: 1px 1px 0px #8B2500;
 }
 
-/* НОВЫЕ ЭЛЕМЕНТЫ: СЧЕТЧИК, РАЗДЕЛИТЕЛЬ, ПОДСКАЗКА */
+/* СЧЕТЧИК, РАЗДЕЛИТЕЛЬ, ПОДСКАЗКА */
 .prize-counter {
   font-family: 'Press Start 2P', monospace;
   font-size: 7px;
   color: #C9A84C;
   background: #1a0a00;
-  border: 2px solid #8B2500;
+  border: 2px solid #C9A84C;
   padding: 6px 10px;
   text-align: center;
   box-shadow: 3px 3px 0px #000;
   animation: pulse 2s infinite;
+}
+
+.prize-counter span {
+  color: #D4530A;
 }
 
 @keyframes pulse {
