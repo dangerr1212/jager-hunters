@@ -180,20 +180,16 @@ function App() {
   if (!selectedCharacter) {
     return (
       <div className="app">
-        <img 
-          src="/assets/logo-gold.png" 
-          alt="Jager Hunters Gold Logo" 
-          className="logo" 
-          onError={(e) => { e.target.src = '/logo-gold.png'; }}
-        />
+        <div className="logo-container">
+          <img 
+            src="/assets/logo-gold.png" 
+            alt="Jager Hunters Gold Logo" 
+            className="logo hero-logo" 
+            style={{ width: '120px', height: '120px', objectFit: 'contain' }}
+            onError={(e) => { e.target.src = '/logo-gold.png'; }}
+          />
+        </div>
         
-        <img 
-          src="/jager-logo.png" 
-          alt="Jägermeister" 
-          style={{ height: '30px', objectFit: 'contain' }} 
-          onError={(e) => e.target.style.display = 'none'} 
-        />
-
         <h1 className="title">JAGER HUNTERS</h1>
         
         <p className="subtitle">
