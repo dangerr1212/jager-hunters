@@ -40,7 +40,7 @@ function App() {
   const pixelateImage = (imgElement) => {
     if (!imgElement) return;
     const canvas = document.createElement('canvas');
-    const size = 32; // Размер пикселизации
+    const size = 32;
     canvas.width = size;
     canvas.height = size;
     const ctx = canvas.getContext('2d');
@@ -180,18 +180,27 @@ function App() {
   if (!selectedCharacter) {
     return (
       <div className="app">
-        <div className="logo-container">
+        {/* ЖЕСТКИЕ СТИЛИ ЛОГОТИПА */}
+        <div style={{
+          width: '120px',
+          maxWidth: '120px',
+          overflow: 'hidden',
+          margin: '0 auto'
+        }}>
           <img 
             src="/assets/logo-gold.png" 
-            alt="Jager Hunters Gold Logo" 
-            className="logo" 
+            alt="Jagermeister" 
+            width="120" 
+            height="120" 
+            className="logo"
+            style={{
+              width: '120px',
+              height: '120px', 
+              maxWidth: '120px',
+              objectFit: 'contain',
+              display: 'block'
+            }} 
             onError={(e) => { e.target.src = '/logo-gold.png'; }}
-          />
-          <img 
-            src="/jager-logo.png" 
-            alt="Jägermeister" 
-            className="logo-label"
-            onError={(e) => e.target.style.display = 'none'} 
           />
         </div>
         
@@ -203,15 +212,76 @@ function App() {
 
         <p className="choose-label">▼ ВЫБЕРИ ГЕРОЯ:</p>
 
-        <div className="characters">
-          <div className="character-card" onClick={() => handleSelectCharacter('Хантер')}>
-            <img ref={hunterImgRef} src="/hunter.jpg" alt="Хантер" />
-            <div className="character-name">ХАНТЕР</div>
+        {/* ПЕРСОНАЖИ В РЯД */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '16px',
+          justifyContent: 'center',
+          width: '100%'
+        }}>
+          {/* КАРТОЧКА ХАНТЕРА */}
+          <div onClick={() => handleSelectCharacter('Хантер')} style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '140px',
+            border: '3px solid #D4530A',
+            boxShadow: '4px 4px 0px #8B2500',
+            cursor: 'pointer',
+            background: '#0a1a0f'
+          }}>
+            <img 
+              ref={hunterImgRef}
+              src="/hunter.jpg" 
+              width="110" 
+              height="110"
+              style={{imageRendering:'pixelated', padding:'8px'}} 
+              alt="Хантер"
+            />
+            <div style={{
+              width:'100%',
+              background:'#D4530A',
+              color:'#fff',
+              fontFamily:"'Press Start 2P'",
+              fontSize:'8px',
+              textAlign:'center',
+              padding:'8px 0'
+            }}>
+              ХАНТЕР
+            </div>
           </div>
 
-          <div className="character-card" onClick={() => handleSelectCharacter('Ханти')}>
-            <img ref={huntiImgRef} src="/hunti.jpg" alt="Ханти" />
-            <div className="character-name">ХАНТИ</div>
+          {/* КАРТОЧКА ХАНТИ */}
+          <div onClick={() => handleSelectCharacter('Ханти')} style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '140px',
+            border: '3px solid #D4530A',
+            boxShadow: '4px 4px 0px #8B2500',
+            cursor: 'pointer',
+            background: '#0a1a0f'
+          }}>
+            <img 
+              ref={huntiImgRef}
+              src="/hunti.jpg" 
+              width="110" 
+              height="110"
+              style={{imageRendering:'pixelated', padding:'8px'}} 
+              alt="Ханти"
+            />
+            <div style={{
+              width:'100%',
+              background:'#D4530A',
+              color:'#fff',
+              fontFamily:"'Press Start 2P'",
+              fontSize:'8px',
+              textAlign:'center',
+              padding:'8px 0'
+            }}>
+              ХАНТИ
+            </div>
           </div>
         </div>
       </div>
@@ -222,12 +292,12 @@ function App() {
   if (showStory) {
     return (
       <div className="app">
-        <div style={{ backgroundColor: '#143326', padding: '20px', maxWidth: '340px', boxShadow: '0 -3px 0 0 #D4530A, 0 3px 0 0 #D4530A, -3px 0 0 0 #D4530A, 3px 0 0 0 #D4530A, 0 6px 0 0 #8B2500', textAlign: 'center' }}>
+        <div style={{ backgroundColor: '#143326', border: '3px solid #D4530A', padding: '20px', maxWidth: '340px', boxShadow: '4px 4px 0px #8B2500', textAlign: 'center' }}>
           <h2 className="title" style={{ fontSize: '12px', marginBottom: '15px', textShadow: 'none' }}>НАЧАЛО ОХОТЫ</h2>
           <p className="subtitle" style={{ fontSize: '8px', color: '#ddd', textAlign: 'left', marginBottom: '20px', textShadow: 'none' }}>
             «Город погрузился в пиксельную ночь. Легендарный рецепт из 56 трав утерян, а его части спрятаны в лучших барах. Твоя миссия — зачистить 8 локаций, отсканировать секретные коды и восстановить рецепт. Охота началась!»
           </p>
-          <button onClick={() => setShowStory(false)} style={{ padding: '12px 20px', fontFamily: '"Press Start 2P"', fontSize: '9px', backgroundColor: '#D4530A', color: '#fff', border: 'none', cursor: 'pointer', width: '100%', boxShadow: '0 3px 0 0 #8B2500' }}>
+          <button onClick={() => setShowStory(false)} style={{ padding: '12px 20px', fontFamily: '"Press Start 2P"', fontSize: '9px', backgroundColor: '#D4530A', color: '#fff', border: 'none', cursor: 'pointer', width: '100%', boxShadow: '3px 3px 0px #8B2500' }}>
             В БОЙ!
           </button>
         </div>
@@ -239,24 +309,30 @@ function App() {
   if (gameFinished) {
     return (
       <div className="app">
-        <h2 className="title" style={{ fontSize: '12px', marginBottom: '15px', textShadow: '2px 2px 0 #8B2500' }}>ЭПИЧЕСКАЯ ПОБЕДА!</h2>
+        <h2 className="title" style={{ fontSize: '12px', marginBottom: '15px' }}>ЭПИЧЕСКАЯ ПОБЕДА!</h2>
         <p className="choose-label" style={{ fontSize: '8px', marginBottom: '20px', lineHeight: '1.6', textAlign: 'center', textShadow: 'none' }}>
           Рецепт из 56 трав восстановлен! Выбери свой сундук с наградой:
         </p>
         
         {!selectedReward ? (
-          <div className="characters">
-            <div className="character-card" onClick={() => handleSelectReward('merch')} style={{ width: '140px', padding: '15px' }}>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '16px',
+            justifyContent: 'center',
+            width: '100%'
+          }}>
+            <div onClick={() => handleSelectReward('merch')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '140px', border: '3px solid #D4530A', boxShadow: '4px 4px 0px #8B2500', cursor: 'pointer', background: '#0a1a0f', padding: '15px' }}>
               <div style={{ fontSize: '32px', marginBottom: '8px' }}>🎁</div>
-              <div className="character-name" style={{ fontSize: '7px', boxShadow: 'none' }}>ЭПИЧЕСКАЯ ЭКИПИРОВКА<br/>(Мерч)</div>
+              <div style={{ width:'100%', background:'transparent', color:'#fff', fontFamily:"'Press Start 2P'", fontSize:'7px', textAlign:'center' }}>ЭПИЧЕСКАЯ ЭКИПИРОВКА<br/>(Мерч)</div>
             </div>
-            <div className="character-card" onClick={() => handleSelectReward('bottle')} style={{ width: '140px', padding: '12px' }}>
+            <div onClick={() => handleSelectReward('bottle')} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '140px', border: '3px solid #D4530A', boxShadow: '4px 4px 0px #8B2500', cursor: 'pointer', background: '#0a1a0f', padding: '12px' }}>
               <img src="/jager-logo.png" alt="Бутылка" style={{ width: '40px', height: '60px', padding: 0, marginBottom: '6px' }} />
-              <div className="character-name" style={{ fontSize: '7px', boxShadow: 'none' }}>ЛЕГЕНДАРНЫЙ ЭЛИКСИР</div>
+              <div style={{ width:'100%', background:'transparent', color:'#fff', fontFamily:"'Press Start 2P'", fontSize:'7px', textAlign:'center' }}>ЛЕГЕНДАРНЫЙ ЭЛИКСИР</div>
             </div>
           </div>
         ) : (
-          <div style={{ backgroundColor: '#143326', padding: '15px', maxWidth: '340px', textAlign: 'center', boxShadow: '0 -3px 0 0 #4ade80, 0 3px 0 0 #4ade80, -3px 0 0 0 #4ade80, 3px 0 0 0 #4ade80, 0 6px 0 0 #1e5c32' }}>
+          <div style={{ backgroundColor: '#143326', border: '3px solid #4ade80', padding: '15px', maxWidth: '340px', textAlign: 'center', boxShadow: '4px 4px 0px #1e5c32' }}>
             <h3 className="title" style={{ fontSize: '10px', color: '#4ade80', marginBottom: '12px', textShadow: 'none' }}>НАГРАДА ВЫБРАНА!</h3>
             <p className="choose-label" style={{ fontSize: '8px', lineHeight: '1.6', marginBottom: '12px', textShadow: 'none' }}>
               {selectedReward === 'merch' ? '🎁 Вы выбрали: Лимитированный мерч Jägermeister.' : '🍾 Вы выбрали: Фирменную бутылку Jägermeister.'}
@@ -313,7 +389,7 @@ function App() {
 
       {activeBar && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px', zIndex: 100 }}>
-          <div style={{ backgroundColor: '#143326', padding: '20px', maxWidth: '320px', textAlign: 'center', boxShadow: '0 -3px 0 0 #D4530A, 0 3px 0 0 #D4530A, -3px 0 0 0 #D4530A, 3px 0 0 0 #D4530A, 0 6px 0 0 #8B2500' }}>
+          <div style={{ backgroundColor: '#143326', border: '3px solid #D4530A', padding: '20px', maxWidth: '320px', textAlign: 'center', boxShadow: '4px 4px 0px #8B2500' }}>
             <h3 className="title" style={{ fontSize: '10px', marginBottom: '12px', textShadow: 'none' }}>{activeBar.name}</h3>
             <p className="choose-label" style={{ fontSize: '9px', marginBottom: '12px', textShadow: 'none' }}>Артефакт: <span style={{ fontSize: '18px', verticalAlign: 'middle' }}>{activeBar.emoji}</span> <b style={{ color: '#C9A84C' }}>{activeBar.ingredient}</b></p>
             <p className="subtitle" style={{ fontSize: '7px', color: '#aaa', marginBottom: '15px' }}>Наведите камеру на тейбл-тент в баре.</p>
